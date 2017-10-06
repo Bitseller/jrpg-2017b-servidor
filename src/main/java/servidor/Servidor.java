@@ -24,6 +24,7 @@ import javax.swing.JTextArea;
 import mensajeria.PaqueteMensaje;
 import mensajeria.PaqueteMovimiento;
 import mensajeria.PaquetePersonaje;
+import mensajeria.PaqueteDeNPC;
 
 public class Servidor extends Thread {
 
@@ -31,6 +32,8 @@ public class Servidor extends Thread {
 	
 	private static Map<Integer, PaqueteMovimiento> ubicacionPersonajes = new HashMap<>();
 	private static Map<Integer, PaquetePersonaje> personajesConectados = new HashMap<>();
+	private static Map<Integer, PaqueteMovimiento> ubicacionNPCs = new HashMap<>();
+	private static Map<Integer, PaqueteDeNPC> NPCs = new HashMap<>();
 
 	private static Thread server;
 	
@@ -159,6 +162,22 @@ public class Servidor extends Thread {
 			
 			atencionConexiones.start();
 			atencionMovimientos.start();
+			
+			
+			
+			
+			for (int i = 0; i < 10; i++) { // crea 10 NPCs en posiciones randoms
+				PaqueteDeNPC paqueteDeNPC = new PaqueteDeNPC(i);
+				PaqueteMovimiento paqueteMovimiento = new PaqueteMovimiento(i, 0 + ((float) Math.random() * 500), 0 +( (float)Math.random() * 500));
+				
+				
+				NPCs.put( i, paqueteDeNPC);
+				ubicacionNPCs.put( i, paqueteMovimiento);
+				
+				setNPCs( NPCs );
+				setUbicacionNPCs( ubicacionNPCs );
+			}
+
 
 			while (true) {
 				Socket cliente = serverSocket.accept();
@@ -175,6 +194,10 @@ public class Servidor extends Thread {
 		} catch (Exception e) {
 			log.append("Fallo la conexión." + System.lineSeparator());
 		}
+		
+		
+
+		
 	}
 
 	public static boolean mensajeAUsuario(PaqueteMensaje pqm) {
@@ -217,6 +240,22 @@ public class Servidor extends Thread {
 	
 	public static ArrayList<EscuchaCliente> getClientesConectados() {
 		return clientesConectados;
+	}
+
+	public static Map<Integer, PaqueteMovimiento> getUbicacionNPCs() {
+		return ubicacionNPCs;
+	}
+
+	public static void setUbicacionNPCs(Map<Integer, PaqueteMovimiento> ubicacionNPCs) {
+		Servidor.ubicacionNPCs = ubicacionNPCs;
+	}
+
+	public static Map<Integer, PaqueteDeNPC> getNPCs() {
+		return NPCs;
+	}
+
+	public static void setNPCs(Map<Integer, PaqueteDeNPC> NPCs) {
+		Servidor.NPCs = NPCs;
 	}
 
 	public static Map<Integer, PaqueteMovimiento> getUbicacionPersonajes() {

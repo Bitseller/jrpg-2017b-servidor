@@ -126,6 +126,7 @@ public class Conector {
 
 	}
 
+
 	public boolean registrarInventarioMochila(int idInventarioMochila) {
 		try {
 			// Preparo la consulta para el registro el inventario en la base de

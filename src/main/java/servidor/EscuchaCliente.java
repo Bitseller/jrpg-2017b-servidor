@@ -13,6 +13,8 @@ import mensajeria.Paquete;
 import mensajeria.PaqueteAtacar;
 import mensajeria.PaqueteBatalla;
 import mensajeria.PaqueteDeMovimientos;
+import mensajeria.PaqueteDeNPC;
+import mensajeria.PaqueteDeNPCs;
 import mensajeria.PaqueteDePersonajes;
 import mensajeria.PaqueteFinalizarBatalla;
 import mensajeria.PaqueteMovimiento;
@@ -26,8 +28,10 @@ public class EscuchaCliente extends Thread {
 	private final ObjectOutputStream salida;
 	private int idPersonaje;
 	private final Gson gson = new Gson();
-	
+
+
 	private PaquetePersonaje paquetePersonaje;
+	// private PaqueteDeNPC paqueteDeNPC;
 	private PaqueteMovimiento paqueteMovimiento;
 	private PaqueteBatalla paqueteBatalla;
 	private PaqueteAtacar paqueteAtacar;
@@ -35,6 +39,7 @@ public class EscuchaCliente extends Thread {
 	private PaqueteUsuario paqueteUsuario;
 	private PaqueteDeMovimientos paqueteDeMovimiento;
 	private PaqueteDePersonajes paqueteDePersonajes;
+	// private PaqueteDeNPCs paqueteDeNPCs;
 
 	public EscuchaCliente(String ip, Socket socket, ObjectInputStream entrada, ObjectOutputStream salida) throws IOException {
 		this.socket = socket;
@@ -52,24 +57,29 @@ public class EscuchaCliente extends Thread {
 
 			String cadenaLeida = (String) entrada.readObject();
 		
-			while (!((paquete = gson.fromJson(cadenaLeida, Paquete.class)).getComando() == Comando.DESCONECTAR)){
-								
+			while (!((paquete = gson.fromJson(cadenaLeida, Paquete.class)).getComando() == Comando.DESCONECTAR)){   // entra aca cada vez q alguien le pide algo al server, sino se queda esperando andes de entrar al while
+																													// si alguien le pide desconectarse sale del loop
 
 				comand = (ComandosServer) paquete.getObjeto(Comando.NOMBREPAQUETE);
 				comand.setCadena(cadenaLeida);
 				comand.setEscuchaCliente(this);
 				comand.ejecutar();
-				cadenaLeida = (String) entrada.readObject();
+				
+				cadenaLeida = (String) entrada.readObject(); // vuelve a leer para entrar en el while
 			}
 
+			// se desconecto alguien
 			entrada.close();
 			salida.close();
 			socket.close();
 
+			// borra ese personaje
 			Servidor.getPersonajesConectados().remove(paquetePersonaje.getId());
 			Servidor.getUbicacionPersonajes().remove(paquetePersonaje.getId());
 			Servidor.getClientesConectados().remove(this);
-
+			
+			
+			// le avisa a todos los otros q ese usuario se fue
 			for (EscuchaCliente conectado : Servidor.getClientesConectados()) {
 				paqueteDePersonajes = new PaqueteDePersonajes(Servidor.getPersonajesConectados());
 				paqueteDePersonajes.setComando(Comando.CONEXION);
@@ -98,7 +108,15 @@ public class EscuchaCliente extends Thread {
 	public PaquetePersonaje getPaquetePersonaje(){
 		return paquetePersonaje;
 	}
-	
+/*	
+	public PaqueteDeNPCs getPaqueteDeNPCs() {
+		return paqueteDeNPCs;
+	}
+
+	public void setPaqueteDeNPCs(PaqueteDeNPCs paqueteDeNPCs) {
+		this.paqueteDeNPCs = paqueteDeNPCs;
+	}
+*/
 	public int getIdPersonaje() {
 		return idPersonaje;
 	}
@@ -166,5 +184,16 @@ public class EscuchaCliente extends Thread {
 	public void setPaqueteUsuario(PaqueteUsuario paqueteUsuario) {
 		this.paqueteUsuario = paqueteUsuario;
 	}
+	
+	
+/*	
+	public PaqueteDeNPC getPaqueteDeNPC() {
+		return paqueteDeNPC;
+	}
+
+	public void setPaqueteDeNPC(PaqueteDeNPC paqueteDeNPC) {
+		this.paqueteDeNPC = paqueteDeNPC;
+	}
+*/
 }
 
