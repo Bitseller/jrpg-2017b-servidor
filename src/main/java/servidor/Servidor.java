@@ -168,7 +168,7 @@ public class Servidor extends Thread {
 			
 			for (int i = 0; i < 10; i++) { // crea 10 NPCs en posiciones randoms
 				PaqueteDeNPC paqueteDeNPC = new PaqueteDeNPC(i);
-				PaqueteMovimiento paqueteMovimiento = new PaqueteMovimiento(i, 100 + ((float) Math.random() * 500), 10 +( (float)Math.random() * 500));
+				PaqueteMovimiento paqueteMovimiento = new PaqueteMovimiento(i, 0 + ((float) Math.random() * 300), 50 +( (float)Math.random() * 300));
 				
 				
 				NPCs.put( i, paqueteDeNPC);
