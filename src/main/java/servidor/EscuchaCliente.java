@@ -31,7 +31,7 @@ public class EscuchaCliente extends Thread {
 
 
 	private PaquetePersonaje paquetePersonaje;
-	// private PaqueteDeNPC paqueteDeNPC;
+	private PaqueteDeNPC paqueteDeNPC;
 	private PaqueteMovimiento paqueteMovimiento;
 	private PaqueteBatalla paqueteBatalla;
 	private PaqueteAtacar paqueteAtacar;
@@ -39,7 +39,7 @@ public class EscuchaCliente extends Thread {
 	private PaqueteUsuario paqueteUsuario;
 	private PaqueteDeMovimientos paqueteDeMovimiento;
 	private PaqueteDePersonajes paqueteDePersonajes;
-	// private PaqueteDeNPCs paqueteDeNPCs;
+	private PaqueteDeNPCs paqueteDeNPCs;
 
 	public EscuchaCliente(String ip, Socket socket, ObjectInputStream entrada, ObjectOutputStream salida) throws IOException {
 		this.socket = socket;
@@ -108,7 +108,7 @@ public class EscuchaCliente extends Thread {
 	public PaquetePersonaje getPaquetePersonaje(){
 		return paquetePersonaje;
 	}
-/*	
+
 	public PaqueteDeNPCs getPaqueteDeNPCs() {
 		return paqueteDeNPCs;
 	}
@@ -116,7 +116,7 @@ public class EscuchaCliente extends Thread {
 	public void setPaqueteDeNPCs(PaqueteDeNPCs paqueteDeNPCs) {
 		this.paqueteDeNPCs = paqueteDeNPCs;
 	}
-*/
+
 	public int getIdPersonaje() {
 		return idPersonaje;
 	}
@@ -186,7 +186,6 @@ public class EscuchaCliente extends Thread {
 	}
 	
 	
-/*	
 	public PaqueteDeNPC getPaqueteDeNPC() {
 		return paqueteDeNPC;
 	}
@@ -194,6 +193,6 @@ public class EscuchaCliente extends Thread {
 	public void setPaqueteDeNPC(PaqueteDeNPC paqueteDeNPC) {
 		this.paqueteDeNPC = paqueteDeNPC;
 	}
-*/
+
 }
 
