@@ -24,6 +24,7 @@ import javax.swing.JTextArea;
 import mensajeria.PaqueteMensaje;
 import mensajeria.PaqueteMovimiento;
 import mensajeria.PaquetePersonaje;
+import properties.PropiedadesComunicacion;
 import mensajeria.PaqueteDeNPC;
 
 public class Servidor extends Thread {
@@ -39,7 +40,6 @@ public class Servidor extends Thread {
 	
 	private static ServerSocket serverSocket;
 	private static Conector conexionDB;
-	private final int PUERTO = 55050;
 
 	private final static int ANCHO = 700;
 	private final static int ALTO = 640;
@@ -153,7 +153,7 @@ public class Servidor extends Thread {
 			conexionDB.connect();
 			
 			log.append("Iniciando el servidor..." + System.lineSeparator());
-			serverSocket = new ServerSocket(PUERTO);
+			serverSocket = new ServerSocket(PropiedadesComunicacion.getPuertoServidor());
 			log.append("Servidor esperando conexiones..." + System.lineSeparator());
 			String ipRemota;
 			
