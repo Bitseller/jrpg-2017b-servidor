@@ -104,9 +104,9 @@ public class Servidor extends Thread {
 						cliente.getSocket().close();
 					}
 					serverSocket.close();
-					log.append("El servidor se ha detenido." + System.lineSeparator());
+					appendLog("El servidor se ha detenido.");
 				} catch (IOException e1) {
-					log.append("Fallo al intentar detener el servidor." + System.lineSeparator());
+					appendLog("Fallo al intentar detener el servidor.");
 				}
 				if(conexionDB != null)
 					conexionDB.close();
@@ -131,9 +131,9 @@ public class Servidor extends Thread {
 							cliente.getSocket().close();
 						}
 						serverSocket.close();
-						log.append("El servidor se ha detenido." + System.lineSeparator());
+						appendLog("El servidor se ha detenido.");
 					} catch (IOException e) {
-						log.append("Fallo al intentar detener el servidor." + System.lineSeparator());
+						appendLog("Fallo al intentar detener el servidor.");
 						System.exit(1);
 					}
 				}
@@ -152,9 +152,9 @@ public class Servidor extends Thread {
 			conexionDB = new Conector();
 			conexionDB.connect();
 			
-			log.append("Iniciando el servidor..." + System.lineSeparator());
+			appendLog("Iniciando el servidor...");
 			serverSocket = new ServerSocket(PropiedadesComunicacion.getPuertoServidor());
-			log.append("Servidor esperando conexiones..." + System.lineSeparator());
+			appendLog("Servidor esperando conexiones...");
 			String ipRemota;
 			
 			atencionConexiones = new AtencionConexiones();
@@ -185,7 +185,7 @@ public class Servidor extends Thread {
 			while (true) {
 				Socket cliente = serverSocket.accept();
 				ipRemota = cliente.getInetAddress().getHostAddress();
-				log.append(ipRemota + " se ha conectado" + System.lineSeparator());
+				appendLog(ipRemota + " se ha conectado");
 
 				ObjectOutputStream salida = new ObjectOutputStream(cliente.getOutputStream());
 				ObjectInputStream entrada = new ObjectInputStream(cliente.getInputStream());
@@ -195,7 +195,7 @@ public class Servidor extends Thread {
 				clientesConectados.add(atencion);
 			}
 		} catch (Exception e) {
-			log.append("Fallo la conexión." + System.lineSeparator());
+			appendLog("Fallo la conexión.");
 		}
 		
 		
@@ -203,7 +203,7 @@ public class Servidor extends Thread {
 		
 	}
 
-	public static boolean mensajeAUsuario(PaqueteMensaje pqm) {
+	public static boolean mensajeAUsuario(final PaqueteMensaje pqm) {
 		boolean result = true;
 		boolean noEncontro = true;
 		for (Map.Entry<Integer, PaquetePersonaje> personaje : personajesConectados.entrySet()) {
@@ -216,29 +216,28 @@ public class Servidor extends Thread {
 		}
 		// Si existe inicio sesion
 		if (result) {
-			Servidor.log.append(pqm.getUserEmisor() + " envió mensaje a " + pqm.getUserReceptor() + System.lineSeparator());
+			appendLog(pqm.getUserEmisor() + " envió mensaje a " + pqm.getUserReceptor());
 				return true;
 		} else {
 			// Si no existe informo y devuelvo false
-			Servidor.log.append("El mensaje para " + pqm.getUserReceptor() + " no se envió, ya que se encuentra desconectado." + System.lineSeparator());
+			appendLog("El mensaje para " + pqm.getUserReceptor() + " no se envió, ya que se encuentra desconectado.");
 			return false;
 		}
 	}
 	
-	public static boolean mensajeAAll(int contador) {
-		boolean result = true;
-		if(personajesConectados.size() != contador+1) {
-			result = false;
-		}
+	public static void appendLog(final String text) {
+		 log.append(text+System.lineSeparator());	
+	}
+	
+	public static boolean mensajeAAll(final int contador) {
 		// Si existe inicio sesion
-		if (result) {
-			Servidor.log.append("Se ha enviado un mensaje a todos los usuarios" + System.lineSeparator());
-				return true;
-		} else {
-			// Si no existe informo y devuelvo false
-			Servidor.log.append("Uno o más de todos los usuarios se ha desconectado, se ha mandado el mensaje a los demas." + System.lineSeparator());
-			return false;
+		if ( personajesConectados.size() == contador + 1 ) {
+			appendLog("Se ha enviado un mensaje a todos los usuarios");
+			return true;
 		}
+		// Si no existe informo y devuelvo false
+		appendLog("Uno o más de todos los usuarios se ha desconectado, se ha mandado el mensaje a los demas.");
+		return false;
 	}
 	
 	public static ArrayList<EscuchaCliente> getClientesConectados() {
