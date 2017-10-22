@@ -1,5 +1,4 @@
 package properties;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -39,10 +38,24 @@ public class PropiedadesComunicacion {
 	        puerto=Integer.parseInt(propiedades.getProperty(KEY_PORT));
 	        
 	        stream.close();
+	        
+	        stream.close();
+	        if(!validarPuerto(puerto))
+	        	throw new IOException("Error de direccion ip del servidor");
         }catch(IOException ex){            
             throw ex;
         }
     }
     
-    
+    public static boolean validarPuerto(final int puerto) {
+		try{
+			if(puerto> 0 && puerto< 65535 )
+				return true;
+			
+		}
+		catch(Exception ex){
+			return false;
+		}
+		return false;
+	}
 }
