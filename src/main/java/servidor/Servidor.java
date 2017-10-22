@@ -248,7 +248,7 @@ public class Servidor extends Thread {
 		return ubicacionNPCs;
 	}
 
-	public static void setUbicacionNPCs(Map<Integer, PaqueteMovimiento> ubicacionNPCs) {
+	public static void setUbicacionNPCs(final Map<Integer, PaqueteMovimiento> ubicacionNPCs) {
 		Servidor.ubicacionNPCs = ubicacionNPCs;
 	}
 
@@ -256,7 +256,7 @@ public class Servidor extends Thread {
 		return NPCs;
 	}
 
-	public static void setNPCs(Map<Integer, PaqueteDeNPC> NPCs) {
+	public static void setNPCs(final Map<Integer, PaqueteDeNPC> NPCs) {
 		Servidor.NPCs = NPCs;
 	}
 
@@ -268,7 +268,7 @@ public class Servidor extends Thread {
 		return personajesConectados;
 	}
 
-	public static void setUbicacionPersonajes(Map<Integer, PaqueteMovimiento> ubicacionPersonajes) {
+	public static void setUbicacionPersonajes(final Map<Integer, PaqueteMovimiento> ubicacionPersonajes) {
 		Servidor.ubicacionPersonajes = ubicacionPersonajes;
 	}
 

@@ -38,7 +38,7 @@ public class Conector {
 		}
 	}
 
-	public boolean registrarUsuario(PaqueteUsuario user) {
+	public boolean registrarUsuario(final PaqueteUsuario user) {
 		ResultSet result = null;
 		try {
 			PreparedStatement st1 = connect.prepareStatement("SELECT * FROM registro WHERE usuario= ? ");
@@ -68,7 +68,7 @@ public class Conector {
 
 	}
 
-	public boolean registrarPersonaje(PaquetePersonaje paquetePersonaje, PaqueteUsuario paqueteUsuario) {
+	public boolean registrarPersonaje(final PaquetePersonaje paquetePersonaje,final PaqueteUsuario paqueteUsuario) {
 
 		try {
 
@@ -138,7 +138,7 @@ public class Conector {
 	}
 
 
-	public boolean registrarInventarioMochila(int idInventarioMochila) {
+	public boolean registrarInventarioMochila(final int idInventarioMochila) {
 		try {
 			// Preparo la consulta para el registro el inventario en la base de
 			// datos
@@ -173,7 +173,7 @@ public class Conector {
 		}
 	}
 
-	public boolean loguearUsuario(PaqueteUsuario user) {
+	public boolean loguearUsuario(final PaqueteUsuario user) {
 		ResultSet result = null;
 		try {
 			// Busco usuario y contraseña
@@ -209,7 +209,7 @@ public class Conector {
 	 * que se abría la ventana de AsignarSkills. AVERIGUAR COMO DIFICAR
 	 * StActualizarPersonaje (?.
 	 */
-	public void actualizarPersonaje(PaquetePersonaje paquetePersonaje) {
+	public void actualizarPersonaje(final PaquetePersonaje paquetePersonaje) {
 		try {
 			int i = 2;
 			int j = 1;
@@ -260,7 +260,7 @@ public class Conector {
 
 	}
 
-	public PaquetePersonaje getPersonaje(PaqueteUsuario user) throws IOException {
+	public PaquetePersonaje getPersonaje(final PaqueteUsuario user) throws IOException {
 		ResultSet result = null;
 		ResultSet resultadoItemsID = null;
 		ResultSet resultadoDatoItem = null;
@@ -331,7 +331,7 @@ public class Conector {
 		return new PaquetePersonaje();
 	}
 
-	public PaqueteUsuario getUsuario(String usuario) {
+	public PaqueteUsuario getUsuario(final String usuario) {
 		ResultSet result = null;
 		PreparedStatement st;
 
@@ -357,7 +357,7 @@ public class Conector {
 		return new PaqueteUsuario();
 	}
 
-	public void actualizarInventario(PaquetePersonaje paquetePersonaje) {
+	public void actualizarInventario(final PaquetePersonaje paquetePersonaje) {
 		int i = 0;
 		PreparedStatement stActualizarMochila;
 		try {
@@ -378,7 +378,7 @@ public class Conector {
 		}
 	}
 
-	public void actualizarInventario(int idPersonaje) {
+	public void actualizarInventario(final int idPersonaje) {
 		int i = 0;
 		PaquetePersonaje paquetePersonaje = Servidor.getPersonajesConectados().get(idPersonaje);
 		PreparedStatement stActualizarMochila;
@@ -410,7 +410,7 @@ public class Conector {
 		}
 	}
 
-	public void actualizarPersonajeSubioNivel(PaquetePersonaje paquetePersonaje) {
+	public void actualizarPersonajeSubioNivel(final PaquetePersonaje paquetePersonaje) {
 		try {
 			PreparedStatement stActualizarPersonaje = connect.prepareStatement(
 					"UPDATE personaje SET fuerza=?, destreza=?, inteligencia=?, saludTope=?, energiaTope=?, experiencia=?, nivel=?, puntosSkill=? "

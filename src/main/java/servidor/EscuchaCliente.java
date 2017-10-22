@@ -41,7 +41,7 @@ public class EscuchaCliente extends Thread {
 	private PaqueteDePersonajes paqueteDePersonajes;
 	private PaqueteDeNPCs paqueteDeNPCs;
 
-	public EscuchaCliente(String ip, Socket socket, ObjectInputStream entrada, ObjectOutputStream salida) throws IOException {
+	public EscuchaCliente(final String ip,final Socket socket,final ObjectInputStream entrada,final ObjectOutputStream salida) throws IOException {
 		this.socket = socket;
 		this.entrada = entrada;
 		this.salida = salida;
@@ -113,7 +113,7 @@ public class EscuchaCliente extends Thread {
 		return paqueteDeNPCs;
 	}
 
-	public void setPaqueteDeNPCs(PaqueteDeNPCs paqueteDeNPCs) {
+	public void setPaqueteDeNPCs(final PaqueteDeNPCs paqueteDeNPCs) {
 		this.paqueteDeNPCs = paqueteDeNPCs;
 	}
 
@@ -125,7 +125,7 @@ public class EscuchaCliente extends Thread {
 		return paqueteMovimiento;
 	}
 
-	public void setPaqueteMovimiento(PaqueteMovimiento paqueteMovimiento) {
+	public void setPaqueteMovimiento(final PaqueteMovimiento paqueteMovimiento) {
 		this.paqueteMovimiento = paqueteMovimiento;
 	}
 
@@ -133,7 +133,7 @@ public class EscuchaCliente extends Thread {
 		return paqueteBatalla;
 	}
 
-	public void setPaqueteBatalla(PaqueteBatalla paqueteBatalla) {
+	public void setPaqueteBatalla(final PaqueteBatalla paqueteBatalla) {
 		this.paqueteBatalla = paqueteBatalla;
 	}
 
@@ -141,7 +141,7 @@ public class EscuchaCliente extends Thread {
 		return paqueteAtacar;
 	}
 
-	public void setPaqueteAtacar(PaqueteAtacar paqueteAtacar) {
+	public void setPaqueteAtacar(final PaqueteAtacar paqueteAtacar) {
 		this.paqueteAtacar = paqueteAtacar;
 	}
 
@@ -149,7 +149,7 @@ public class EscuchaCliente extends Thread {
 		return paqueteFinalizarBatalla;
 	}
 
-	public void setPaqueteFinalizarBatalla(PaqueteFinalizarBatalla paqueteFinalizarBatalla) {
+	public void setPaqueteFinalizarBatalla(final PaqueteFinalizarBatalla paqueteFinalizarBatalla) {
 		this.paqueteFinalizarBatalla = paqueteFinalizarBatalla;
 	}
 
@@ -157,7 +157,7 @@ public class EscuchaCliente extends Thread {
 		return paqueteDeMovimiento;
 	}
 
-	public void setPaqueteDeMovimiento(PaqueteDeMovimientos paqueteDeMovimiento) {
+	public void setPaqueteDeMovimiento(final PaqueteDeMovimientos paqueteDeMovimiento) {
 		this.paqueteDeMovimiento = paqueteDeMovimiento;
 	}
 
@@ -165,15 +165,15 @@ public class EscuchaCliente extends Thread {
 		return paqueteDePersonajes;
 	}
 
-	public void setPaqueteDePersonajes(PaqueteDePersonajes paqueteDePersonajes) {
+	public void setPaqueteDePersonajes(final PaqueteDePersonajes paqueteDePersonajes) {
 		this.paqueteDePersonajes = paqueteDePersonajes;
 	}
 
-	public void setIdPersonaje(int idPersonaje) {
+	public void setIdPersonaje(final int idPersonaje) {
 		this.idPersonaje = idPersonaje;
 	}
 
-	public void setPaquetePersonaje(PaquetePersonaje paquetePersonaje) {
+	public void setPaquetePersonaje(final PaquetePersonaje paquetePersonaje) {
 		this.paquetePersonaje = paquetePersonaje;
 	}
 
@@ -181,7 +181,7 @@ public class EscuchaCliente extends Thread {
 		return paqueteUsuario;
 	}
 
-	public void setPaqueteUsuario(PaqueteUsuario paqueteUsuario) {
+	public void setPaqueteUsuario(final PaqueteUsuario paqueteUsuario) {
 		this.paqueteUsuario = paqueteUsuario;
 	}
 	
@@ -190,7 +190,7 @@ public class EscuchaCliente extends Thread {
 		return paqueteDeNPC;
 	}
 
-	public void setPaqueteDeNPC(PaqueteDeNPC paqueteDeNPC) {
+	public void setPaqueteDeNPC(final PaqueteDeNPC paqueteDeNPC) {
 		this.paqueteDeNPC = paqueteDeNPC;
 	}
 
