@@ -13,7 +13,9 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -251,18 +253,19 @@ public class Servidor extends Thread {
      * @return true, si el usuario existe
      */
     public static boolean mensajeAUsuario(final PaqueteMensaje pqm) {
-        boolean result = true;
-        boolean noEncontro = true;
-        for (Map.Entry<Integer, PaquetePersonaje> personaje : personajesConectados.entrySet()) {
-            if (noEncontro && (!personaje.getValue().getNombre().equals(pqm.getUserReceptor()))) {
-                result = false;
-            } else {
-                result = true;
-                noEncontro = false;
+        boolean encontrado = false;
+
+        Iterator<Entry<Integer, PaquetePersonaje>> it = personajesConectados.entrySet().iterator();
+
+        while (it.hasNext() && !encontrado) {
+            Map.Entry<Integer, PaquetePersonaje> personaje = it.next();
+            if (personaje.getValue().getNombre().equals(pqm.getUserReceptor())) {
+                encontrado = true;
             }
         }
+
         // Si existe inicio sesion
-        if (result) {
+        if (encontrado) {
             appendLog(pqm.getUserEmisor() + " envió mensaje a " + pqm.getUserReceptor());
             return true;
         } else {
@@ -283,7 +286,7 @@ public class Servidor extends Thread {
     }
 
     /**
-     * Mensaje a todos los clientes conectados
+     * Verifica si se envio mensaje a todos los clientes conectados
      *
      * @param contador
      *            la cantidad de clientes en el server
@@ -294,9 +297,10 @@ public class Servidor extends Thread {
         if (personajesConectados.size() == contador + 1) {
             appendLog("Se ha enviado un mensaje a todos los usuarios");
             return true;
+        } else {
+            // Si no existe informo y devuelvo false
+            appendLog("Uno o más de todos los usuarios se ha desconectado, se ha mandado el mensaje a los demas.");
         }
-        // Si no existe informo y devuelvo false
-        appendLog("Uno o más de todos los usuarios se ha desconectado, se ha mandado el mensaje a los demas.");
         return false;
     }
 
