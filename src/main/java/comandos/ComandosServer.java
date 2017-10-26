@@ -3,11 +3,20 @@ package comandos;
 import mensajeria.Comando;
 import servidor.EscuchaCliente;
 
-public abstract class ComandosServer extends Comando{
-	protected EscuchaCliente escuchaCliente;
+/**
+ * The Class ComandosServer de donde heredan todos los comandos
+ */
+public abstract class ComandosServer extends Comando {
+    protected EscuchaCliente escuchaCliente;
 
-	public void setEscuchaCliente(EscuchaCliente escuchaCliente) {
-		this.escuchaCliente = escuchaCliente;
-	}
-	
+    /**
+     * Sets the escucha cliente.
+     *
+     * @param escuchaCliente
+     *            un Escuchador de clientes
+     */
+    public void setEscuchaCliente(EscuchaCliente escuchaCliente) {
+        this.escuchaCliente = escuchaCliente;
+    }
+
 }
