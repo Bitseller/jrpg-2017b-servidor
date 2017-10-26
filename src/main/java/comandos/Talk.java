@@ -53,6 +53,7 @@ public class Talk extends ComandosServer {
             for (EscuchaCliente conectado : Servidor.getClientesConectados()) {
                 if (conectado.getIdPersonaje() != idUser) {
                     try {
+                        contador++;
                         conectado.getSalida().writeObject(gson.toJson(paqueteMensaje));
                     } catch (IOException e) {
                         Servidor.log.append(
