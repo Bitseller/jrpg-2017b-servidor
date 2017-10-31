@@ -3,13 +3,12 @@ package testsServidor;
 import java.io.IOException;
 import java.util.Random;
 
-import javax.swing.plaf.SliderUI;
-
 import org.junit.Assert;
 import org.junit.Test;
 
 import mensajeria.PaquetePersonaje;
 import mensajeria.PaqueteUsuario;
+import persistencia.hibernate.HibernateUtil;
 import servidor.Conector;
 import servidor.Servidor;
 
@@ -27,20 +26,7 @@ public class TestConector {
         return saltStr;
 
     }
-	@Test
-	public void testConexionConLaDB() {
-		new Servidor();
-		Servidor.main(null);
 
-		Conector conector = new Conector();
-		conector.connect();
-
-		// Pasado este punto la conexi�n con la base de datos result� exitosa
-
-		Assert.assertEquals(1, 1);
-
-		conector.close();
-	}
 
 	@Test
 	public void testRegistrarUsuario() {
@@ -48,7 +34,7 @@ public class TestConector {
 		Servidor.main(null);
 
 		Conector conector = new Conector();
-		conector.connect();
+		//conector.connect();
 
 		PaqueteUsuario pu = new PaqueteUsuario();
 		pu.setUsername("UserTest");
@@ -60,7 +46,8 @@ public class TestConector {
 
 		Assert.assertEquals("UserTest", pu.getUsername());
 
-		conector.close();
+		HibernateUtil.cerrarSessionEnHilo();
+		//conector.close();
 	}
 
 	@Test
@@ -69,7 +56,7 @@ public class TestConector {
 		Servidor.main(null);
 
 		Conector conector = new Conector();
-		conector.connect();
+		//conector.connect();
 		String randomero = getRandomString();
 		PaquetePersonaje pp = new PaquetePersonaje();
 		pp.setCasta("Humano");
@@ -93,7 +80,8 @@ public class TestConector {
 		pp = conector.getPersonaje(pu);
 
 		Assert.assertEquals(randomero, pp.getNombre());
-		conector.close();
+		//conector.close();
+		HibernateUtil.cerrarSessionEnHilo();
 	}
 
 	@Test
@@ -102,7 +90,7 @@ public class TestConector {
 		Servidor.main(null);
 
 		Conector conector = new Conector();
-		conector.connect();
+		//conector.connect();
 
 		PaqueteUsuario pu = new PaqueteUsuario();
 		pu.setUsername("UserTest");
@@ -114,7 +102,8 @@ public class TestConector {
 
 		Assert.assertEquals(true, resultadoLogin);
 
-		conector.close();
+		//conector.close();
+		HibernateUtil.cerrarSessionEnHilo();
 	}
 
 	@Test
@@ -123,7 +112,7 @@ public class TestConector {
 		Servidor.main(null);
 
 		Conector conector = new Conector();
-		conector.connect();
+		//conector.connect();
 
 		PaqueteUsuario pu = new PaqueteUsuario();
 		pu.setUsername("userInventado");
@@ -133,7 +122,8 @@ public class TestConector {
 
 		Assert.assertEquals(false, resultadoLogin);
 
-		conector.close();
+		//conector.close();
+		HibernateUtil.cerrarSessionEnHilo();
 	}
 
 }
