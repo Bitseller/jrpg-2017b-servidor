@@ -266,11 +266,6 @@ public class Conector {
     			personaje.getMochila().add(ctrlItem.buscarPorId(paquetePersonaje.getItemID(i)));
     			i++;
     		}
-    		if (paquetePersonaje.getCantItems() < 9) {
-    			int itemGanado = new Random().nextInt(29);
-    			itemGanado += 1;
-    			personaje.getMochila().add(ctrlItem.buscarPorId(itemGanado));
-    		} 
     		ctrl.actualizar(personaje);
     	} 
     	catch (Exception ex) 
@@ -291,7 +286,39 @@ public class Conector {
      * @param idPersonaje the id personaje
      */
     public void actualizarInventario(final int idPersonaje) {
-    	actualizarInventario(Servidor.getPersonajesConectados().get(idPersonaje));
+    	
+    	int i = 0;
+    	HibernateUtil.abrirSessionEnHilo();
+    	ControladorPersonaje ctrl = new ControladorPersonaje();
+    	ControladorItem ctrlItem = new ControladorItem();
+        PaquetePersonaje paquetePersonaje = Servidor.getPersonajesConectados().get(idPersonaje);
+    	try 
+    	{
+    		EPersonaje personaje = ctrl.buscarPorId(idPersonaje);
+    		personaje.getMochila().clear();
+    		while (i < paquetePersonaje.getCantItems()) {
+    			personaje.getMochila().add(ctrlItem.buscarPorId(paquetePersonaje.getItemID(i)));
+    			i++;
+    		}
+    		if (paquetePersonaje.getCantItems() < 9) {
+    			int itemGanado = new Random().nextInt(29);
+    			itemGanado += 1;
+    			personaje.getMochila().add(ctrlItem.buscarPorId(itemGanado));
+    		} 
+    		ctrl.actualizar(personaje);
+    	} 
+    	catch (Exception ex) 
+    	{
+    		Servidor.appendLog(MensajesLog.inventarioErrorGeneralAlActualizar(paquetePersonaje.getNombre()));
+    		System.err.println(ex.getMessage());
+    		ex.printStackTrace();
+    	}
+    	finally
+    	{    
+    		HibernateUtil.cerrarSessionEnHilo();
+    	}
+    	
+    	
     }
 
     /**
