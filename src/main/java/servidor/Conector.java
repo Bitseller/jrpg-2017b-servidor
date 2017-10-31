@@ -87,7 +87,13 @@ public class Conector {
     		ePersonaje.setEnergiaTope(paquetePersonaje.getEnergiaTope());
     		ePersonaje.setNombre(paquetePersonaje.getNombre());
     		ePersonaje.setPuntosSkill(paquetePersonaje.getPuntosSkill());
-    		
+
+			int itemGanado = new Random().nextInt(29);
+			itemGanado += 1;
+			EItem e = new EItem();
+			e.setId(itemGanado);
+			ePersonaje.getMochila().add( e);
+			
         	u.setPersonaje(ePersonaje);
 
         	ctrlUsuario.guardar(u);
@@ -297,9 +303,12 @@ public class Conector {
     		EPersonaje personaje = ctrl.buscarPorId(idPersonaje);
     		personaje.getMochila().clear();
     		while (i < paquetePersonaje.getCantItems()) {
-    			personaje.getMochila().add(ctrlItem.buscarPorId(paquetePersonaje.getItemID(i)));
+    			EItem item = new EItem();
+    			item.setId(paquetePersonaje.getItemID(i));
+    			personaje.getMochila().add(item);//ctrlItem.buscarPorId(paquetePersonaje.getItemID(i)));
     			i++;
     		}
+    		
     		if (paquetePersonaje.getCantItems() < 9) {
     			int itemGanado = new Random().nextInt(29);
     			itemGanado += 1;
