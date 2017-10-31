@@ -1,15 +1,7 @@
 package servidor;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import dominio.Item;
 import mensajeria.PaquetePersonaje;
 import mensajeria.PaqueteUsuario;
@@ -22,7 +14,6 @@ import persistencia.entidades.EMochila;
 import persistencia.entidades.EPersonaje;
 import persistencia.entidades.EUsuario;
 import persistencia.hibernate.HibernateUtil;
-import properties.Idioma;
 
 /**
  * The Class Conector.
@@ -145,8 +136,7 @@ public class Conector {
      * @param paquetePersonaje the paquete personaje
      */
     public void actualizarPersonaje(final PaquetePersonaje paquetePersonaje) {
-    	boolean resultadoOperacion;
-        HibernateUtil.abrirSessionEnHilo();
+    	HibernateUtil.abrirSessionEnHilo();
         ControladorPersonaje ctrlPersonaje = new ControladorPersonaje();
         try 
         {
@@ -167,14 +157,12 @@ public class Conector {
         	ctrlPersonaje.guardar(ePersonaje);
         	
     		Servidor.appendLog(MensajesLog.personajeActualizadoExitosamente(paquetePersonaje.getNombre()));
-        	resultadoOperacion = true;
 		} 
         catch (Exception ex) 
         {
     		Servidor.appendLog(MensajesLog.personajeErrorGeneralAlActualizar(paquetePersonaje.getNombre()));
         	System.err.println(ex.getMessage());
 			ex.printStackTrace();
-	     	resultadoOperacion = false;
 		}
         finally
         {    
