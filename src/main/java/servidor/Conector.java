@@ -5,6 +5,7 @@ import java.util.Random;
 import dominio.Item;
 import mensajeria.PaquetePersonaje;
 import mensajeria.PaqueteUsuario;
+import persistencia.controladores.ControladorItem;
 import persistencia.controladores.ControladorMochila;
 import persistencia.controladores.ControladorPersonaje;
 import persistencia.controladores.ControladorUsuario;
@@ -86,8 +87,6 @@ public class Conector {
     		ePersonaje.setEnergiaTope(paquetePersonaje.getEnergiaTope());
     		ePersonaje.setNombre(paquetePersonaje.getNombre());
     		ePersonaje.setPuntosSkill(paquetePersonaje.getPuntosSkill());
-
-    		ePersonaje.setInventario(new EInventario());
     		
         	u.setPersonaje(ePersonaje);
 
@@ -201,6 +200,7 @@ public class Conector {
             personaje.setExperiencia(p.getExperiencia());
             personaje.setNivel(p.getNivel());
             personaje.setPuntosSkill(p.getPuntosSkill());
+            
             for(EItem item : p.getMochila())
             	personaje.anadirItem(new Item(item.getId(),item.getNombre(), item.getWereable(), item.getBonusSalud(),item.getBonusEnergia(),item.getBonusFuerza(), item.getBonusDestreza(), item.getBonusInteligencia(), item.getFoto(),item.getFotoEquipado()));
             
@@ -256,21 +256,22 @@ public class Conector {
     public void actualizarInventario(final PaquetePersonaje paquetePersonaje) {
     	int i = 0;
     	HibernateUtil.abrirSessionEnHilo();
-    	ControladorMochila ctrl = new ControladorMochila();
+    	ControladorPersonaje ctrl = new ControladorPersonaje();
+    	ControladorItem ctrlItem = new ControladorItem();
     	try 
     	{
-    		EMochila mochila = new EMochila();
-    		mochila.setId(paquetePersonaje.getId());
+    		EPersonaje personaje = ctrl.buscarPorId(paquetePersonaje.getId());
+    		personaje.getMochila().clear();
     		while (i < paquetePersonaje.getCantItems()) {
-    			mochila.setItem(i+1,paquetePersonaje.getItemID(i));
+    			personaje.getMochila().add(ctrlItem.buscarPorId(paquetePersonaje.getItemID(i)));
     			i++;
     		}
     		if (paquetePersonaje.getCantItems() < 9) {
     			int itemGanado = new Random().nextInt(29);
     			itemGanado += 1;
-    			mochila.setItem(paquetePersonaje.getCantItems() + 1, itemGanado);
+    			personaje.getMochila().add(ctrlItem.buscarPorId(itemGanado));
     		} 
-    		ctrl.actualizar(mochila);
+    		ctrl.actualizar(personaje);
     	} 
     	catch (Exception ex) 
     	{

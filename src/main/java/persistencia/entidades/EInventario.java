@@ -48,7 +48,7 @@ public class EInventario {
 	
 	public EInventario() {
 		super();
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	/**

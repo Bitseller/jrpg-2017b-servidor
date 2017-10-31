@@ -19,4 +19,8 @@ public class ControladorItem {
 	    	objetoDAO.actualizar(objeto);
 			
 		}
+
+		public EItem buscarPorId(int id) throws Exception {
+	    	return objetoDAO.buscarPorId(id);
+		}
 }

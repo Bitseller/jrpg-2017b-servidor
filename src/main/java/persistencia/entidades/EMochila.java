@@ -34,6 +34,11 @@ public class EMochila {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
+	public EMochila(EPersonaje personaje) {
+		super();
+		this.personaje = personaje;
+	}
 
 	/**
 	 * @return the id
