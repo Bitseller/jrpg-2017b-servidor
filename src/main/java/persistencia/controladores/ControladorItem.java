@@ -23,4 +23,10 @@ public class ControladorItem {
 		public EItem buscarPorId(int id) throws Exception {
 	    	return objetoDAO.buscarPorId(id);
 		}
+
+		public int cantidadDeItemsExistente() {
+	    	return objetoDAO.cantidadDeItemsExistente();
+			
+		}
+		
 }

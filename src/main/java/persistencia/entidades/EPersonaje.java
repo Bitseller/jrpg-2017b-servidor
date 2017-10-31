@@ -51,9 +51,9 @@ public class EPersonaje {
 	@OneToOne(mappedBy="personaje")
 	private EUsuario usuario;
 
-	@OneToOne(cascade={javax.persistence.CascadeType.ALL})
-	@PrimaryKeyJoinColumn
-	private EInventario inventario;
+//	@OneToOne(cascade={javax.persistence.CascadeType.ALL})
+//	@PrimaryKeyJoinColumn
+//	private EInventario inventario;
 	
 	@ManyToMany(cascade = {CascadeType.ALL})
 	@JoinTable(name="Mochila", joinColumns={@JoinColumn(name="pfkPersonaje")}, inverseJoinColumns={@JoinColumn(name="pfkItem")})
@@ -247,20 +247,20 @@ public class EPersonaje {
 		this.usuario = usuario;
 	}
 
-	/**
-	 * @return the inventario
-	 */
-	public EInventario getInventario() {
-		return inventario;
-	}
-
-	/**
-	 * @param inventario the inventario to set
-	 */
-	public void setInventario(EInventario inventario) {
-		this.inventario = inventario;
-		this.inventario.setPersonaje(this);
-	}
+//	/**
+//	 * @return the inventario
+//	 */
+//	public EInventario getInventario() {
+//		return inventario;
+//	}
+//
+//	/**
+//	 * @param inventario the inventario to set
+//	 */
+//	public void setInventario(EInventario inventario) {
+//		this.inventario = inventario;
+//		this.inventario.setPersonaje(this);
+//	}
 
 	/**
 	 * @return the mochila

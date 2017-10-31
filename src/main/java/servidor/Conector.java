@@ -6,12 +6,9 @@ import dominio.Item;
 import mensajeria.PaquetePersonaje;
 import mensajeria.PaqueteUsuario;
 import persistencia.controladores.ControladorItem;
-import persistencia.controladores.ControladorMochila;
 import persistencia.controladores.ControladorPersonaje;
 import persistencia.controladores.ControladorUsuario;
-import persistencia.entidades.EInventario;
 import persistencia.entidades.EItem;
-import persistencia.entidades.EMochila;
 import persistencia.entidades.EPersonaje;
 import persistencia.entidades.EUsuario;
 import persistencia.hibernate.HibernateUtil;
@@ -87,13 +84,8 @@ public class Conector {
     		ePersonaje.setEnergiaTope(paquetePersonaje.getEnergiaTope());
     		ePersonaje.setNombre(paquetePersonaje.getNombre());
     		ePersonaje.setPuntosSkill(paquetePersonaje.getPuntosSkill());
-
-			int itemGanado = new Random().nextInt(29);
-			itemGanado += 1;
-			EItem e = new EItem();
-			e.setId(itemGanado);
-			ePersonaje.getMochila().add( e);
-			
+    		
+			ePersonaje.getMochila().add((new ControladorItem().buscarPorId(new Random().nextInt(29))));
         	u.setPersonaje(ePersonaje);
 
         	ctrlUsuario.guardar(u);
@@ -259,7 +251,7 @@ public class Conector {
      *
      * @param paquetePersonaje the paquete personaje
      */
-    public void actualizarInventario(final PaquetePersonaje paquetePersonaje) {
+    public void actualizarMochila(final PaquetePersonaje paquetePersonaje) {
     	int i = 0;
     	HibernateUtil.abrirSessionEnHilo();
     	ControladorPersonaje ctrl = new ControladorPersonaje();
@@ -291,12 +283,11 @@ public class Conector {
      *
      * @param idPersonaje the id personaje
      */
-    public void actualizarInventario(final int idPersonaje) {
+    public void actualizarMochila(final int idPersonaje) {
     	
     	int i = 0;
     	HibernateUtil.abrirSessionEnHilo();
     	ControladorPersonaje ctrl = new ControladorPersonaje();
-    	ControladorItem ctrlItem = new ControladorItem();
         PaquetePersonaje paquetePersonaje = Servidor.getPersonajesConectados().get(idPersonaje);
     	try 
     	{
@@ -310,10 +301,12 @@ public class Conector {
     		}
     		
     		if (paquetePersonaje.getCantItems() < 9) {
-    			int itemGanado = new Random().nextInt(29);
+    	    	ControladorItem ctrlItem = new ControladorItem();
+    			int itemGanado = new Random().nextInt(ctrlItem.cantidadDeItemsExistente());
     			itemGanado += 1;
     			personaje.getMochila().add(ctrlItem.buscarPorId(itemGanado));
     		} 
+    		
     		ctrl.actualizar(personaje);
     	} 
     	catch (Exception ex) 
@@ -329,6 +322,8 @@ public class Conector {
     	
     	
     }
+
+	
 
     /**
      * Actualizar personaje subio nivel.

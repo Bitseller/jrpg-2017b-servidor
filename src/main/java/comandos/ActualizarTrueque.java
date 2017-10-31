@@ -15,7 +15,7 @@ public class ActualizarTrueque extends ComandosServer {
     public void ejecutar() {
         escuchaCliente.setPaquetePersonaje(gson.fromJson(cadenaLeida, PaquetePersonaje.class));
 
-        Servidor.getConector().actualizarInventario(escuchaCliente.getPaquetePersonaje());
+        Servidor.getConector().actualizarMochila(escuchaCliente.getPaquetePersonaje());
         Servidor.getConector().actualizarPersonaje(escuchaCliente.getPaquetePersonaje());
 
         Servidor.getPersonajesConectados().remove(escuchaCliente.getPaquetePersonaje().getId());
