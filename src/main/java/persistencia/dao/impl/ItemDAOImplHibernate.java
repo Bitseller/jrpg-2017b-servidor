@@ -1,6 +1,8 @@
 package persistencia.dao.impl;
 
 
+import javax.persistence.Convert;
+
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Projections;
@@ -16,7 +18,7 @@ public class ItemDAOImplHibernate extends GenericDAOImplHibernate<EItem,Integer>
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		Criteria criteria = session.createCriteria(EItem.class);
 		criteria.setProjection(Projections.rowCount());
-		return (int) criteria.uniqueResult();
+		return ((Long) criteria.uniqueResult()).intValue();
 	}
 	
 }
