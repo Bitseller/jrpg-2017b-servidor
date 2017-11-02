@@ -54,29 +54,19 @@ public class Servidor extends Thread {
 
     private static final int ANCHO_ETIQUETA = 200;
 
-    private static final int CANTIDAD_NPC = 10;
+
 
     private static final int ALTO_ETIQUETA = 30;
 
     private static final int ANCHO_BOTON = 100;
 
-    private static final int RANDOM_POS_DESDE = 10;
-
-    private static final double RANDOM_POS = 0.707;
-
-    private static final int RANDOM_HASTA = 500;
-
     private static ArrayList<EscuchaCliente> clientesConectados = new ArrayList<>();
 
     private static Map<Integer, PaqueteMovimiento> ubicacionPersonajes = new HashMap<>();
     private static Map<Integer, PaquetePersonaje> personajesConectados = new HashMap<>();
-    private static Map<Integer, PaqueteMovimiento> ubicacionNPCs = new HashMap<>();
-    private static Map<Integer, PaqueteDeNPC> NPCs = new HashMap<>();
-    private static boolean[][] matMapa;
-    private static int altoMapas[] = new int[2];
-	private static int anchoMapas[] = new int[2];
     
-
+    private static NPCadmin NPCs;
+    
     private static Thread server;
 
     private static ServerSocket serverSocket;
@@ -221,86 +211,11 @@ public class Servidor extends Thread {
             atencionMovimientos = new AtencionMovimientos();
 
             atencionConexiones.start();
-            atencionMovimientos.start();
+            atencionMovimientos.start();  
             
-            cargarMapa("mapaSolides.txt");
-
-            for (int i = 0; i < CANTIDAD_NPC; i++) { // crea 10 NPCs en posiciones randoms
-            	
-            //for (int i = 0; i < 10; i++) {
-            //int i = 0; //////////////
-            	PaqueteDeNPC paqueteDeNPC = new PaqueteDeNPC(i);
-            	
-            	    
-            	/*int xx, yy;
-            	
-            	
-                float x = (float)  Math.random() * RANDOM_HASTA;
-                float y = (float) Math.random() * RANDOM_HASTA;
-                
-                int a =(int)x / 64;
-                		int b =(int)y / 64 ;
-
-            	
-                 while( matMapa[a][b] )
-            	{
-            		
-	                x = (float)  Math.random() * RANDOM_HASTA;
-	                y = (float) Math.random() * RANDOM_HASTA;
-	                
-	                a =(int)x / 64;
-            		 b =(int)y / 64 ;
-            	}
-                 
-                 //xx = (int) (RANDOM_POS_DESDE + ((int)(x) * RANDOM_POS) - ((int)(y) * RANDOM_POS));
-                 //yy = (int) (RANDOM_POS_DESDE + ((int)(x) * RANDOM_POS) + ((int)(y) * RANDOM_POS));
-                 xx = (int) (((int)(x) * RANDOM_POS) - ((int)(y) * RANDOM_POS));
-                 yy = (int) ( ((int)(x) * RANDOM_POS) + ((int)(y) * RANDOM_POS));
-                 
-                 appendLog("(a,b) = (" + a + "," + b + ")  " );
-                 appendLog("(xx,yy) = (" + xx + "," + yy + ")  " );
-          
-          	*/
-            	/*
-            	
-            	int x = (int) (Math.random() * anchoMapas[0]);
-            	int y = (int) (Math.random() * altoMapas[0]);     	
-                while( matMapa[x][y] )
-                {
-                   	x = (int) (Math.random() * anchoMapas[0]);
-                	y = (int) (Math.random() * altoMapas[0]); 
-           		}*/
-            	
-            	int x = 5 + (int) (Math.random() * 30);
-            	int y = 5 + (int) (Math.random() * 20);     	
-                while( matMapa[y][x] )
-                {
-                	appendLog("(a,b) = (" + x + "," + y + ")  " + "es solidooooo");
-                	x = 5 + (int) (Math.random() * 30);
-                	y = 5 + (int) (Math.random() * 20); 
-                	
-           		}
-            	
-                appendLog("(a,b) = (" + x + "," + y + ")  " );
-                x--;
-                y--;
-                //dos a iso		
-                int xIsometrica = (x - y) * (64 / 2);
-                int yIsometrica = (x + y) * (32 / 2);
-                
-                
-                appendLog("(xx,yy) = (" + xIsometrica + "," + yIsometrica + ")  " );
-            	
-                PaqueteMovimiento paqueteMovimiento = new PaqueteMovimiento(i, (float)xIsometrica, (float)yIsometrica);
-
-
-                NPCs.put(i, paqueteDeNPC);
-                ubicacionNPCs.put(i, paqueteMovimiento);
-
-                setNPCs(NPCs);
-                setUbicacionNPCs(ubicacionNPCs);
-            }
-            appendLog("listo" );
+            NPCs = new NPCadmin("mapaSolides.txt");
+            NPCs.cargarPrimerosNPCS();
+            
             while (true) {
                 Socket cliente = serverSocket.accept();
                 ipRemota = cliente.getInetAddress().getHostAddress();
@@ -319,38 +234,6 @@ public class Servidor extends Thread {
 
     }
 
-    private void cargarMapa(String path) {
-        
-    	
-    	
-    	
-
-        try {
-        	Scanner sc = new Scanner(new File(path));
-/*
-            while ((linea = br.readLine()) != null) {
-                builder.append(linea + System.lineSeparator());
-            }
-*/
-            altoMapas[0] = 74;
-            anchoMapas[0] = 74;
-            
-            matMapa = new boolean[74][74];
-            
-            //sc.nextInt();
-            //sc.nextInt();
-            for (int i = 0; i < altoMapas[0]; i++) {
-                for (int j = 0; j < anchoMapas[0]; j++) {
-    				matMapa[i][j] = (sc.nextInt()) == 1 ? true : false;
-    			}
-			}
-            
-            
-            sc.close();
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Fallo al intentar cargar el mapa " + path);
-        }
-	}
 
 	/**
      * Mensaje A un usuario.
@@ -425,38 +308,7 @@ public class Servidor extends Thread {
      *
      * @return the ubicacion NPCs
      */
-    public static Map<Integer, PaqueteMovimiento> getUbicacionNPCs() {
-        return ubicacionNPCs;
-    }
-
-    /**
-     * Sets the ubicacion NPCs.
-     *
-     * @param ubicacionNPCs
-     *            paquete con la ubicacion del NPCs
-     */
-    public static void setUbicacionNPCs(final Map<Integer, PaqueteMovimiento> ubicacionNPCs) {
-        Servidor.ubicacionNPCs = ubicacionNPCs;
-    }
-
-    /**
-     * Gets the NPCs.
-     *
-     * @return the NPCs
-     */
-    public static Map<Integer, PaqueteDeNPC> getNPCs() {
-        return NPCs;
-    }
-
-    /**
-     * Sets the NPCs.
-     *
-     * @param NPCs
-     *            the NPCs.
-     */
-    public static void setNPCs(final Map<Integer, PaqueteDeNPC> NPCs) {
-        Servidor.NPCs = NPCs;
-    }
+ 
 
     /**
      * Gets the ubicacion personajes.
@@ -494,6 +346,14 @@ public class Servidor extends Thread {
     public static Conector getConector() {
         return conexionDB;
     }
+
+	public static NPCadmin getNPCs() {
+		return NPCs;
+	}
+
+	public static void setNPCs(NPCadmin nPCs) {
+		NPCs = nPCs;
+	}
     
 
     

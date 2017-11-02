@@ -31,7 +31,7 @@ public class FinalizarBatallaNPC extends ComandosServer {
                 .setEstado(Estado.estadoJuego);
 
         if (paqueteFinalizarBatalla.getGanadorBatalla() < 0) { // gano el personaje
-            Servidor.getUbicacionNPCs().remove(paqueteFinalizarBatalla.getIdEnemigo());
+            Servidor.getNPCs().getUbicacionNPCs().remove(paqueteFinalizarBatalla.getIdEnemigo());
             // PaqueteDeNPC newNPC;
             // new NPC =
 
@@ -40,7 +40,7 @@ public class FinalizarBatallaNPC extends ComandosServer {
             PaqueteMovimiento newPosicion = new PaqueteMovimiento(paqueteFinalizarBatalla.getIdEnemigo(),
                     POS_X_ALEATORIA, POS_Y_ALEATORIA);
 
-            Servidor.getUbicacionNPCs().put(paqueteFinalizarBatalla.getIdEnemigo(), newPosicion);
+            Servidor.getNPCs().getUbicacionNPCs().put(paqueteFinalizarBatalla.getIdEnemigo(), newPosicion);
 
         }
 
