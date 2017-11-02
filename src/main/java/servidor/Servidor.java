@@ -32,6 +32,7 @@ import mensajeria.PaqueteDeNPC;
 import mensajeria.PaqueteMensaje;
 import mensajeria.PaqueteMovimiento;
 import mensajeria.PaquetePersonaje;
+import mundo.Tile;
 import properties.PropiedadesComunicacion;
 
 /**
@@ -225,9 +226,14 @@ public class Servidor extends Thread {
             cargarMapa("mapaSolides.txt");
 
             for (int i = 0; i < CANTIDAD_NPC; i++) { // crea 10 NPCs en posiciones randoms
-            //    int i = 0; //////////////
-            	int xx, yy;
+            	
+            //for (int i = 0; i < 10; i++) {
+            //int i = 0; //////////////
             	PaqueteDeNPC paqueteDeNPC = new PaqueteDeNPC(i);
+            	
+            	    
+            	/*int xx, yy;
+            	
             	
                 float x = (float)  Math.random() * RANDOM_HASTA;
                 float y = (float) Math.random() * RANDOM_HASTA;
@@ -254,7 +260,38 @@ public class Servidor extends Thread {
                  appendLog("(a,b) = (" + a + "," + b + ")  " );
                  appendLog("(xx,yy) = (" + xx + "," + yy + ")  " );
           
-                PaqueteMovimiento paqueteMovimiento = new PaqueteMovimiento(i, xx, yy);
+          	*/
+            	/*
+            	
+            	int x = (int) (Math.random() * anchoMapas[0]);
+            	int y = (int) (Math.random() * altoMapas[0]);     	
+                while( matMapa[x][y] )
+                {
+                   	x = (int) (Math.random() * anchoMapas[0]);
+                	y = (int) (Math.random() * altoMapas[0]); 
+           		}*/
+            	
+            	int x = 5 + (int) (Math.random() * 30);
+            	int y = 5 + (int) (Math.random() * 20);     	
+                while( matMapa[y][x] )
+                {
+                	appendLog("(a,b) = (" + x + "," + y + ")  " + "es solidooooo");
+                	x = 5 + (int) (Math.random() * 30);
+                	y = 5 + (int) (Math.random() * 20); 
+                	
+           		}
+            	
+                appendLog("(a,b) = (" + x + "," + y + ")  " );
+                x--;
+                y--;
+                //dos a iso		
+                int xIsometrica = (x - y) * (64 / 2);
+                int yIsometrica = (x + y) * (32 / 2);
+                
+                
+                appendLog("(xx,yy) = (" + xIsometrica + "," + yIsometrica + ")  " );
+            	
+                PaqueteMovimiento paqueteMovimiento = new PaqueteMovimiento(i, (float)xIsometrica, (float)yIsometrica);
 
 
                 NPCs.put(i, paqueteDeNPC);
