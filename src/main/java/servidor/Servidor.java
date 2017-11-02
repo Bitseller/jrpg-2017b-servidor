@@ -6,6 +6,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -16,10 +19,12 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Scanner;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
@@ -66,13 +71,19 @@ public class Servidor extends Thread {
     private static Map<Integer, PaquetePersonaje> personajesConectados = new HashMap<>();
     private static Map<Integer, PaqueteMovimiento> ubicacionNPCs = new HashMap<>();
     private static Map<Integer, PaqueteDeNPC> NPCs = new HashMap<>();
+    private static boolean[][] matMapa;
+    private static int altoMapas[] = new int[2];
+	private static int anchoMapas[] = new int[2];
+    
 
     private static Thread server;
 
     private static ServerSocket serverSocket;
     private static Conector conexionDB;
 
-    private static final int ANCHO = 700;
+
+
+	private static final int ANCHO = 700;
     private static final int ALTO = 640;
 
     private static final int POS_Y_BOTONES_ABAJO = ALTO - 70;
@@ -210,15 +221,41 @@ public class Servidor extends Thread {
 
             atencionConexiones.start();
             atencionMovimientos.start();
+            
+            cargarMapa("mapaSolides.txt");
 
             for (int i = 0; i < CANTIDAD_NPC; i++) { // crea 10 NPCs en posiciones randoms
-                PaqueteDeNPC paqueteDeNPC = new PaqueteDeNPC(i);
-                float x = (float) Math.random() * RANDOM_HASTA;
+            //    int i = 0; //////////////
+            	int xx, yy;
+            	PaqueteDeNPC paqueteDeNPC = new PaqueteDeNPC(i);
+            	
+                float x = (float)  Math.random() * RANDOM_HASTA;
                 float y = (float) Math.random() * RANDOM_HASTA;
+                
+                int a =(int)x / 64;
+                		int b =(int)y / 64 ;
 
-                PaqueteMovimiento paqueteMovimiento = new PaqueteMovimiento(i,
-                        (float) (RANDOM_POS_DESDE + (x * RANDOM_POS) - (y * RANDOM_POS)),
-                        (float) (RANDOM_POS_DESDE + (x * RANDOM_POS) + (y * RANDOM_POS)));
+            	
+                 while( matMapa[a][b] )
+            	{
+            		
+	                x = (float)  Math.random() * RANDOM_HASTA;
+	                y = (float) Math.random() * RANDOM_HASTA;
+	                
+	                a =(int)x / 64;
+            		 b =(int)y / 64 ;
+            	}
+                 
+                 //xx = (int) (RANDOM_POS_DESDE + ((int)(x) * RANDOM_POS) - ((int)(y) * RANDOM_POS));
+                 //yy = (int) (RANDOM_POS_DESDE + ((int)(x) * RANDOM_POS) + ((int)(y) * RANDOM_POS));
+                 xx = (int) (((int)(x) * RANDOM_POS) - ((int)(y) * RANDOM_POS));
+                 yy = (int) ( ((int)(x) * RANDOM_POS) + ((int)(y) * RANDOM_POS));
+                 
+                 appendLog("(a,b) = (" + a + "," + b + ")  " );
+                 appendLog("(xx,yy) = (" + xx + "," + yy + ")  " );
+          
+                PaqueteMovimiento paqueteMovimiento = new PaqueteMovimiento(i, xx, yy);
+
 
                 NPCs.put(i, paqueteDeNPC);
                 ubicacionNPCs.put(i, paqueteMovimiento);
@@ -226,7 +263,7 @@ public class Servidor extends Thread {
                 setNPCs(NPCs);
                 setUbicacionNPCs(ubicacionNPCs);
             }
-
+            appendLog("listo" );
             while (true) {
                 Socket cliente = serverSocket.accept();
                 ipRemota = cliente.getInetAddress().getHostAddress();
@@ -245,7 +282,40 @@ public class Servidor extends Thread {
 
     }
 
-    /**
+    private void cargarMapa(String path) {
+        
+    	
+    	
+    	
+
+        try {
+        	Scanner sc = new Scanner(new File(path));
+/*
+            while ((linea = br.readLine()) != null) {
+                builder.append(linea + System.lineSeparator());
+            }
+*/
+            altoMapas[0] = 74;
+            anchoMapas[0] = 74;
+            
+            matMapa = new boolean[74][74];
+            
+            //sc.nextInt();
+            //sc.nextInt();
+            for (int i = 0; i < altoMapas[0]; i++) {
+                for (int j = 0; j < anchoMapas[0]; j++) {
+    				matMapa[i][j] = (sc.nextInt()) == 1 ? true : false;
+    			}
+			}
+            
+            
+            sc.close();
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Fallo al intentar cargar el mapa " + path);
+        }
+	}
+
+	/**
      * Mensaje A un usuario.
      *
      * @param pqm
@@ -387,4 +457,7 @@ public class Servidor extends Thread {
     public static Conector getConector() {
         return conexionDB;
     }
+    
+
+    
 }
