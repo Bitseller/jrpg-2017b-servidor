@@ -15,78 +15,118 @@ import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-@Entity(name="mochila")
-@Table (name="mochila")
+/**
+ * The Class EMochila.
+ */
+@Entity(name = "mochila")
+@Table(name = "mochila")
 public class EMochila {
-	@Id
-	@Column (name="idPersonaje")
-	private int id;
+    @Id
+    @Column(name = "idPersonaje")
+    private int id;
 
     @MapsId
     @OneToOne
-    @JoinColumn(name="idPersonaje")
-	private EPersonaje personaje;
+    @JoinColumn(name = "idPersonaje")
+    private EPersonaje personaje;
 
-    @ManyToMany(cascade = {CascadeType.ALL},mappedBy="mochila")
-    private Set<EPersonaje> personajes=new HashSet<EPersonaje>();
-    
-	public EMochila() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-	
-	public EMochila(EPersonaje personaje) {
-		super();
-		this.personaje = personaje;
-	}
+    @ManyToMany(cascade = { CascadeType.ALL }, mappedBy = "mochila")
+    private Set<EPersonaje> personajes = new HashSet<EPersonaje>();
 
-	/**
-	 * @return the id
-	 */
-	public int getId() {
-		return id;
-	}
+    /**
+     * Instantiates a new e mochila.
+     */
+    public EMochila() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
 
-	/**
-	 * @param id the id to set
-	 */
-	public void setId(int id) {
-		this.id = id;
-	}
+    /**
+     * Instantiates a new e mochila.
+     *
+     * @param personaje
+     *            the personaje
+     */
+    public EMochila(final EPersonaje personaje) {
+        super();
+        this.personaje = personaje;
+    }
 
-	/**
-	 * @return the personaje
-	 */
-	public EPersonaje getPersonaje() {
-		return personaje;
-	}
+    /**
+     * Gets the id.
+     *
+     * @return the id
+     */
+    public int getId() {
+        return id;
+    }
 
-	/**
-	 * @param personaje the personaje to set
-	 */
-	public void setPersonaje(EPersonaje personaje) {
-		this.personaje = personaje;
-	}
-	
-	/**
-	 * @return the profesores
-	 */
-	public Set<EPersonaje> getPersonajes() {
-		return personajes;
-	}
+    /**
+     * Sets the id.
+     *
+     * @param id
+     *            the id to set
+     */
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	/**
-	 * @param profesores the profesores to set
-	 */
-	public void setPersonaje(Set<EPersonaje> profesores) {
-		this.personajes = profesores;
-	}
+    /**
+     * Gets the personaje.
+     *
+     * @return the personaje
+     */
+    public EPersonaje getPersonaje() {
+        return personaje;
+    }
 
-	public void setItem(int i, int itemID) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
-		Method method = this.getClass().getMethod(("setItem"+itemID), int.class);
-		method.invoke(this, i);
-	}
-	
-	
-	
+    /**
+     * Sets the personaje.
+     *
+     * @param personaje
+     *            the personaje to set
+     */
+    public void setPersonaje(final EPersonaje personaje) {
+        this.personaje = personaje;
+    }
+
+    /**
+     * Gets the personajes.
+     *
+     * @return the profesores
+     */
+    public Set<EPersonaje> getPersonajes() {
+        return personajes;
+    }
+
+    /**
+     * Sets the personaje.
+     *
+     * @param profesores
+     *            the profesores to set
+     */
+    public void setPersonaje(final Set<EPersonaje> profesores) {
+        this.personajes = profesores;
+    }
+
+    /**
+     * Sets the item.
+     *
+     * @param i
+     *            the i
+     * @param itemID
+     *            the item ID
+     * @throws IllegalAccessException
+     *             the illegal access exception
+     * @throws InvocationTargetException
+     *             the invocation target exception
+     * @throws NoSuchMethodException
+     *             the no such method exception
+     */
+    public void setItem(final int i, final int itemID) throws IllegalAccessException,
+        InvocationTargetException, NoSuchMethodException {
+        Method method = this.getClass().getMethod(("setItem" + itemID), int.class);
+        method.invoke(this, i);
+    }
+
 }

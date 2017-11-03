@@ -4,29 +4,65 @@ import persistencia.dao.ItemDAO;
 import persistencia.dao.impl.ItemDAOImplHibernate;
 import persistencia.entidades.EItem;
 
+/**
+ * The Class ControladorItem.
+ */
 public class ControladorItem {
-	 private ItemDAO objetoDAO;
+    private ItemDAO objetoDAO;
 
-	    public ControladorItem() {
-	    	objetoDAO=new ItemDAOImplHibernate();//CAMBIANDO ESTA LINEA IMPLEMENTO OTRO TIPO DE DAO
-	    }
+    /**
+     * Instantiates a new controlador item.
+     */
+    public ControladorItem() {
+        objetoDAO = new ItemDAOImplHibernate();//CAMBIANDO ESTA LINEA IMPLEMENTO OTRO TIPO DE DAO
+    }
 
-	    public void guardar(EItem objeto) throws Exception {
-	    	objetoDAO.guardarOActualizar(objeto);
-	    }
+    /**
+     * Guardar.
+     *
+     * @param objeto
+     *            the objeto
+     * @throws Exception
+     *             the exception
+     */
+    public void guardar(final EItem objeto) throws Exception {
+        objetoDAO.guardarOActualizar(objeto);
+    }
 
-		public void actualizar(EItem objeto) throws Exception {
-	    	objetoDAO.actualizar(objeto);
-			
-		}
+    /**
+     * Actualizar.
+     *
+     * @param objeto
+     *            the objeto
+     * @throws Exception
+     *             the exception
+     */
+    public void actualizar(final EItem objeto) throws Exception {
+        objetoDAO.actualizar(objeto);
 
-		public EItem buscarPorId(int id) throws Exception {
-	    	return objetoDAO.buscarPorId(id);
-		}
+    }
 
-		public int cantidadDeItemsExistente() {
-	    	return objetoDAO.cantidadDeItemsExistente();
-			
-		}
-		
+    /**
+     * Buscar por id.
+     *
+     * @param id
+     *            the id
+     * @return the e item
+     * @throws Exception
+     *             the exception
+     */
+    public EItem buscarPorId(final int id) throws Exception {
+        return objetoDAO.buscarPorId(id);
+    }
+
+    /**
+     * Cantidad de items existente.
+     *
+     * @return the int
+     */
+    public int cantidadDeItemsExistente() {
+        return objetoDAO.cantidadDeItemsExistente();
+
+    }
+
 }

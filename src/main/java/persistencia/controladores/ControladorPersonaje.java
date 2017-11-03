@@ -4,24 +4,56 @@ import persistencia.dao.PersonajeDAO;
 import persistencia.dao.impl.PersonajeDAOImplHibernate;
 import persistencia.entidades.EPersonaje;
 
+/**
+ * The Class ControladorPersonaje.
+ */
 public class ControladorPersonaje {
     private PersonajeDAO objetoDAO;
 
+    /**
+     * Instantiates a new controlador personaje.
+     */
     public ControladorPersonaje() {
-    	objetoDAO=new PersonajeDAOImplHibernate();//CAMBIANDO ESTA LINEA IMPLEMENTO OTRO TIPO DE DAO
+        //CAMBIANDO ESTA LINEA IMPLEMENTO OTRO TIPO DE DAO
+        objetoDAO = new PersonajeDAOImplHibernate();
     }
 
-    public void guardar(EPersonaje objeto) throws Exception {
-    	objetoDAO.guardarOActualizar(objeto);
+    /**
+     * Guardar.
+     *
+     * @param objeto
+     *            the objeto
+     * @throws Exception
+     *             the exception
+     */
+    public void guardar(final EPersonaje objeto) throws Exception {
+        objetoDAO.guardarOActualizar(objeto);
     }
 
-	public void actualizar(EPersonaje objeto) throws Exception {
-    	objetoDAO.actualizar(objeto);
-		
-	}
+    /**
+     * Actualizar.
+     *
+     * @param objeto
+     *            the objeto
+     * @throws Exception
+     *             the exception
+     */
+    public void actualizar(final EPersonaje objeto) throws Exception {
+        objetoDAO.actualizar(objeto);
 
-	public EPersonaje buscarPorId(int id) throws Exception {
-    	return objetoDAO.buscarPorId(id);
-	}
-    
+    }
+
+    /**
+     * Buscar por id.
+     *
+     * @param id
+     *            the id
+     * @return the e personaje
+     * @throws Exception
+     *             the exception
+     */
+    public EPersonaje buscarPorId(final int id) throws Exception {
+        return objetoDAO.buscarPorId(id);
+    }
+
 }

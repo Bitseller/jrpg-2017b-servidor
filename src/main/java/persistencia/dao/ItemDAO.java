@@ -2,7 +2,15 @@ package persistencia.dao;
 
 import persistencia.entidades.EItem;
 
-public interface ItemDAO extends GenericDAO<EItem,Integer> {
+/**
+ * The Interface ItemDAO.
+ */
+public interface ItemDAO extends GenericDAO<EItem, Integer> {
 
-	public int cantidadDeItemsExistente();
+    /**
+     * Cantidad de items existente.
+     *
+     * @return the int
+     */
+    public int cantidadDeItemsExistente();
 }

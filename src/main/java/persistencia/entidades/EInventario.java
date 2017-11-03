@@ -9,18 +9,21 @@ import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-@Entity(name="inventario")
-@Table (name="inventario")
+/**
+ * The Class EInventario.
+ */
+@Entity(name = "inventario")
+@Table(name = "inventario")
 public class EInventario {
 
-	@Id
-	@Column (name="idPersonaje")
-	private int id;
+    @Id
+    @Column(name = "idPersonaje")
+    private int id;
 
     @MapsId
     @OneToOne
-    @JoinColumn(name="idPersonaje")
-	private EPersonaje personaje;
+    @JoinColumn(name = "idPersonaje")
+    private EPersonaje personaje;
 
     @ManyToOne
     @JoinColumn(name = "manos1")
@@ -32,135 +35,178 @@ public class EInventario {
 
     @ManyToOne
     @JoinColumn(name = "pie")
-	private EItem pie;
-    
+    private EItem pie;
+
     @ManyToOne
     @JoinColumn(name = "cabeza")
-	private EItem cabeza;
-    
+    private EItem cabeza;
+
     @ManyToOne
     @JoinColumn(name = "pecho")
-	private EItem pecho;
-    
+    private EItem pecho;
+
     @ManyToOne
     @JoinColumn(name = "accesorio")
-	private EItem accesorio;
-	
-	public EInventario() {
-		super();
-		
-	}
+    private EItem accesorio;
 
-	/**
-	 * @return the id
-	 */
-	public int getId() {
-		return id;
-	}
+    /**
+     * Instantiates a new e inventario.
+     */
+    public EInventario() {
+        super();
 
-	/**
-	 * @param id the id to set
-	 */
-	public void setId(int id) {
-		this.id = id;
-	}
+    }
 
-	/**
-	 * @return the personaje
-	 */
-	public EPersonaje getPersonaje() {
-		return personaje;
-	}
+    /**
+     * Gets the id.
+     *
+     * @return the id
+     */
+    public int getId() {
+        return id;
+    }
 
-	/**
-	 * @param personaje the personaje to set
-	 */
-	public void setPersonaje(EPersonaje personaje) {
-		this.personaje = personaje;
-	}
+    /**
+     * Sets the id.
+     *
+     * @param id
+     *            the id to set
+     */
+    public void setId(final int id) {
+        this.id = id;
+    }
 
-	/**
-	 * @return the mano1
-	 */
-	public EItem getMano1() {
-		return mano1;
-	}
+    /**
+     * Gets the personaje.
+     *
+     * @return the personaje
+     */
+    public EPersonaje getPersonaje() {
+        return personaje;
+    }
 
-	/**
-	 * @param mano1 the mano1 to set
-	 */
-	public void setMano1(EItem mano1) {
-		this.mano1 = mano1;
-	}
+    /**
+     * Sets the personaje.
+     *
+     * @param personaje
+     *            the personaje to set
+     */
+    public void setPersonaje(final EPersonaje personaje) {
+        this.personaje = personaje;
+    }
 
-	/**
-	 * @return the mano2
-	 */
-	public EItem getMano2() {
-		return mano2;
-	}
+    /**
+     * Gets the mano 1.
+     *
+     * @return the mano1
+     */
+    public EItem getMano1() {
+        return mano1;
+    }
 
-	/**
-	 * @param mano2 the mano2 to set
-	 */
-	public void setMano2(EItem mano2) {
-		this.mano2 = mano2;
-	}
+    /**
+     * Sets the mano 1.
+     *
+     * @param mano1
+     *            the mano1 to set
+     */
+    public void setMano1(final EItem mano1) {
+        this.mano1 = mano1;
+    }
 
-	/**
-	 * @return the pie
-	 */
-	public EItem getPie() {
-		return pie;
-	}
+    /**
+     * Gets the mano 2.
+     *
+     * @return the mano2
+     */
+    public EItem getMano2() {
+        return mano2;
+    }
 
-	/**
-	 * @param pie the pie to set
-	 */
-	public void setPie(EItem pie) {
-		this.pie = pie;
-	}
+    /**
+     * Sets the mano 2.
+     *
+     * @param mano2
+     *            the mano2 to set
+     */
+    public void setMano2(final EItem mano2) {
+        this.mano2 = mano2;
+    }
 
-	/**
-	 * @return the cabeza
-	 */
-	public EItem getCabeza() {
-		return cabeza;
-	}
+    /**
+     * Gets the pie.
+     *
+     * @return the pie
+     */
+    public EItem getPie() {
+        return pie;
+    }
 
-	/**
-	 * @param cabeza the cabeza to set
-	 */
-	public void setCabeza(EItem cabeza) {
-		this.cabeza = cabeza;
-	}
+    /**
+     * Sets the pie.
+     *
+     * @param pie
+     *            the pie to set
+     */
+    public void setPie(final EItem pie) {
+        this.pie = pie;
+    }
 
-	/**
-	 * @return the pecho
-	 */
-	public EItem getPecho() {
-		return pecho;
-	}
+    /**
+     * Gets the cabeza.
+     *
+     * @return the cabeza
+     */
+    public EItem getCabeza() {
+        return cabeza;
+    }
 
-	/**
-	 * @param pecho the pecho to set
-	 */
-	public void setPecho(EItem pecho) {
-		this.pecho = pecho;
-	}
+    /**
+     * Sets the cabeza.
+     *
+     * @param cabeza
+     *            the cabeza to set
+     */
+    public void setCabeza(final EItem cabeza) {
+        this.cabeza = cabeza;
+    }
 
-	/**
-	 * @return the accesorio
-	 */
-	public EItem getAccesorio() {
-		return accesorio;
-	}
+    /**
+     * Gets the pecho.
+     *
+     * @return the pecho
+     */
+    public EItem getPecho() {
+        return pecho;
+    }
 
-	/**
-	 * @param accesorio the accesorio to set
-	 */
-	public void setAccesorio(EItem accesorio) {
-		this.accesorio = accesorio;
-	}
-	
+    /**
+     * Sets the pecho.
+     *
+     * @param pecho
+     *            the pecho to set
+     */
+    public void setPecho(final EItem pecho) {
+        this.pecho = pecho;
+    }
+
+    /**
+     * Gets the accesorio.
+     *
+     * @return the accesorio
+     */
+    public EItem getAccesorio() {
+        return accesorio;
+    }
+
+    /**
+     * Sets the accesorio.
+     *
+     * @param accesorio
+     *            the accesorio to set
+     */
+    public void setAccesorio(final EItem accesorio) {
+        this.accesorio = accesorio;
+    }
+
 }

@@ -4,19 +4,41 @@ import persistencia.dao.MochilaDAO;
 import persistencia.dao.impl.MochilaDAOImplHibernate;
 import persistencia.entidades.EMochila;
 
+/**
+ * The Class ControladorMochila.
+ */
 public class ControladorMochila {
-	 private MochilaDAO objetoDAO;
+    private MochilaDAO objetoDAO;
 
-	    public ControladorMochila() {
-	    	objetoDAO=new MochilaDAOImplHibernate();//CAMBIANDO ESTA LINEA IMPLEMENTO OTRO TIPO DE DAO
-	    }
+    /**
+     * Instantiates a new controlador mochila.
+     */
+    public ControladorMochila() {
+        objetoDAO = new MochilaDAOImplHibernate();//CAMBIANDO ESTA LINEA IMPLEMENTO OTRO TIPO DE DAO
+    }
 
-	    public void guardar(EMochila objeto) throws Exception {
-	    	objetoDAO.guardarOActualizar(objeto);
-	    }
+    /**
+     * Guardar.
+     *
+     * @param objeto
+     *            the objeto
+     * @throws Exception
+     *             the exception
+     */
+    public void guardar(final EMochila objeto) throws Exception {
+        objetoDAO.guardarOActualizar(objeto);
+    }
 
-		public void actualizar(EMochila objeto) throws Exception {
-	    	objetoDAO.actualizar(objeto);
-			
-		}
+    /**
+     * Actualizar.
+     *
+     * @param objeto
+     *            the objeto
+     * @throws Exception
+     *             the exception
+     */
+    public void actualizar(final EMochila objeto) throws Exception {
+        objetoDAO.actualizar(objeto);
+
+    }
 }
