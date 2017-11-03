@@ -27,6 +27,8 @@ import mensajeria.PaqueteDeNPC;
 import mensajeria.PaqueteMensaje;
 import mensajeria.PaqueteMovimiento;
 import mensajeria.PaquetePersonaje;
+import persistencia.hibernate.HibernateUtil;
+import properties.Idioma;
 import properties.PropiedadesComunicacion;
 
 /**
@@ -90,6 +92,7 @@ public class Servidor extends Thread {
      * @param args parametros
      */
     public static void main(final String[] args) {
+    	Idioma.setIdiomaEspaniol();
         cargarInterfaz();
     }
 
@@ -97,14 +100,14 @@ public class Servidor extends Thread {
      * Carga la interfaz del server.
      */
     private static void cargarInterfaz() {
-        JFrame ventana = new JFrame("Servidor WOME");
+        JFrame ventana = new JFrame(Idioma.getIdioma().getProperty("SERVIDOR_TITLE"));
         ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         ventana.setSize(ANCHO, ALTO);
         ventana.setResizable(false);
         ventana.setLocationRelativeTo(null);
         ventana.setLayout(null);
         ventana.setIconImage(Toolkit.getDefaultToolkit().getImage("src/main/java/servidor/server.png"));
-        JLabel titulo = new JLabel("Log del servidor...");
+        JLabel titulo = new JLabel(Idioma.getIdioma().getProperty("SERVIDOR_TITLE"));
         titulo.setFont(new Font("Courier New", Font.BOLD, FUENTE_TITULO));
         titulo.setBounds(POS_X_PRIMER_ETIQUETA, 0, ANCHO_ETIQUETA, ALTO_ETIQUETA);
         ventana.add(titulo);
@@ -119,7 +122,7 @@ public class Servidor extends Thread {
 
         final JButton botonIniciar = new JButton();
         final JButton botonDetener = new JButton();
-        botonIniciar.setText("Iniciar");
+        botonIniciar.setText(Idioma.getIdioma().getProperty("BTN_INICIAR"));
         botonIniciar.setBounds(POS_X_PRIMER_BOTON, POS_Y_BOTONES_ABAJO, ANCHO_BOTON, ALTO_ETIQUETA);
         botonIniciar.addActionListener(new ActionListener() {
             @Override
@@ -133,7 +136,7 @@ public class Servidor extends Thread {
 
         ventana.add(botonIniciar);
 
-        botonDetener.setText("Detener");
+        botonDetener.setText(Idioma.getIdioma().getProperty("BTN_DETENER"));
         botonDetener.setBounds(POS_X_SEGUNDO_BOTON, POS_Y_BOTONES_ABAJO, ANCHO_BOTON, ALTO_ETIQUETA);
         botonDetener.addActionListener(new ActionListener() {
             @Override
@@ -148,12 +151,13 @@ public class Servidor extends Thread {
                         cliente.getSocket().close();
                     }
                     serverSocket.close();
-                    appendLog("El servidor se ha detenido.");
+                    appendLog(Idioma.getIdioma().getProperty("SERVIDOR_DETENIDO_CON_EXITO"));
                 } catch (IOException e1) {
-                    appendLog("Fallo al intentar detener el servidor.");
+                    appendLog(Idioma.getIdioma().getProperty("SERVIDOR_ERROR_AL_DETENER"));
                 }
                 if (conexionDB != null) {
-                    conexionDB.close();
+                	HibernateUtil.cerrarSessionFactory();
+           //         conexionDB.close();
                 }
                 botonDetener.setEnabled(false);
                 botonIniciar.setEnabled(true);
@@ -177,14 +181,14 @@ public class Servidor extends Thread {
                             cliente.getSocket().close();
                         }
                         serverSocket.close();
-                        appendLog("El servidor se ha detenido.");
+                        appendLog(Idioma.getIdioma().getProperty("SERVIDOR_DETENIDO_CON_EXITO"));
                     } catch (IOException e) {
-                        appendLog("Fallo al intentar detener el servidor.");
+                        appendLog(Idioma.getIdioma().getProperty("SERVIDOR_ERROR_AL_DETENER"));
                         System.exit(1);
                     }
                 }
                 if (conexionDB != null) {
-                    conexionDB.close();
+                   HibernateUtil.cerrarSessionFactory();// conexionDB.close();
                 }
                 System.exit(0);
             }
@@ -198,11 +202,11 @@ public class Servidor extends Thread {
         try {
 
             conexionDB = new Conector();
-            conexionDB.connect();
+         //   conexionDB.connect();
 
-            appendLog("Iniciando el servidor...");
+            appendLog(Idioma.getIdioma().getProperty("SERVIDOR_INICIANDO"));
             serverSocket = new ServerSocket(PropiedadesComunicacion.getPuertoServidor());
-            appendLog("Servidor esperando conexiones...");
+            appendLog(Idioma.getIdioma().getProperty("SERVIDOR_ECUCHANDO"));
             String ipRemota;
 
             atencionConexiones = new AtencionConexiones();
@@ -230,7 +234,7 @@ public class Servidor extends Thread {
             while (true) {
                 Socket cliente = serverSocket.accept();
                 ipRemota = cliente.getInetAddress().getHostAddress();
-                appendLog(ipRemota + " se ha conectado");
+                appendLog(ipRemota + " online");
 
                 ObjectOutputStream salida = new ObjectOutputStream(cliente.getOutputStream());
                 ObjectInputStream entrada = new ObjectInputStream(cliente.getInputStream());
@@ -240,8 +244,9 @@ public class Servidor extends Thread {
                 clientesConectados.add(atencion);
             }
         } catch (Exception e) {
-            appendLog("Fallo la conexión.");
+            appendLog(Idioma.getIdioma().getProperty("SERVIDOR_ERROR_CONEXION"));
         }
+     	HibernateUtil.eliminarSessionFactory();
 
     }
 
@@ -266,11 +271,11 @@ public class Servidor extends Thread {
 
         // Si existe inicio sesion
         if (encontrado) {
-            appendLog(pqm.getUserEmisor() + " envió mensaje a " + pqm.getUserReceptor());
+        	appendLog(pqm.getUserEmisor() + " "+Idioma.getIdioma().getProperty("SERVIDOR_COMUNICACION_ENTRE")+" " + pqm.getUserReceptor() );
             return true;
         } else {
             // Si no existe informo y devuelvo false
-            appendLog("El mensaje para " + pqm.getUserReceptor() + " no se envió, ya que se encuentra desconectado.");
+        	appendLog(Idioma.getIdioma().getProperty("SERVIDOR_ERR_ENVIAR_MSJ_USR_DECON")+" " + pqm.getUserReceptor() );
             return false;
         }
     }
@@ -279,7 +284,7 @@ public class Servidor extends Thread {
      * Append log.
      *
      * @param text
-     *            texto a añadir
+     *            texto a a�adir
      */
     public static void appendLog(final String text) {
         log.append(text + System.lineSeparator());
@@ -295,11 +300,11 @@ public class Servidor extends Thread {
     public static boolean mensajeAAll(final int contador) {
         // Si existe inicio sesion
         if (personajesConectados.size() == contador + 1) {
-            appendLog("Se ha enviado un mensaje a todos los usuarios");
+            appendLog(Idioma.getIdioma().getProperty("SERVIDOR_MENSAJE_ALL"));
             return true;
         } else {
             // Si no existe informo y devuelvo false
-            appendLog("Uno o más de todos los usuarios se ha desconectado, se ha mandado el mensaje a los demas.");
+            appendLog(Idioma.getIdioma().getProperty("SERVIDOR_USUARIO_DESCONECTADO"));
         }
         return false;
     }
@@ -387,4 +392,6 @@ public class Servidor extends Thread {
     public static Conector getConector() {
         return conexionDB;
     }
+    
+    
 }

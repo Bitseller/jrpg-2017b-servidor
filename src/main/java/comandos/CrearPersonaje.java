@@ -22,6 +22,7 @@ public class CrearPersonaje extends ComandosServer {
             paquetePersonaje = new PaquetePersonaje();
             paquetePersonaje = Servidor.getConector().getPersonaje(escuchaCliente.getPaqueteUsuario());
             escuchaCliente.setIdPersonaje(paquetePersonaje.getId());
+            escuchaCliente.getPaquetePersonaje().setId(paquetePersonaje.getId());
             escuchaCliente.getSalida().writeObject(
                     gson.toJson(escuchaCliente.getPaquetePersonaje(), escuchaCliente.getPaquetePersonaje().getClass()));
         } catch (IOException e1) {

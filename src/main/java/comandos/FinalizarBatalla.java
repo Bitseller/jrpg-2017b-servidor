@@ -17,7 +17,7 @@ public class FinalizarBatalla extends ComandosServer {
 
         PaqueteFinalizarBatalla paqueteFinalizarBatalla = gson.fromJson(cadenaLeida, PaqueteFinalizarBatalla.class);
         escuchaCliente.setPaqueteFinalizarBatalla(paqueteFinalizarBatalla);
-        Servidor.getConector().actualizarInventario(paqueteFinalizarBatalla.getGanadorBatalla());
+        Servidor.getConector().actualizarMochila(paqueteFinalizarBatalla.getGanadorBatalla());
         Servidor.getPersonajesConectados().get(escuchaCliente.getPaqueteFinalizarBatalla().getId())
                 .setEstado(Estado.estadoJuego);
         Servidor.getPersonajesConectados().get(escuchaCliente.getPaqueteFinalizarBatalla().getIdEnemigo())
