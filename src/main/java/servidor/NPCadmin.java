@@ -8,7 +8,9 @@ import java.util.Scanner;
 
 import javax.swing.JOptionPane;
 
+import entidades.Entidad;
 import mensajeria.PaqueteDeNPC;
+import mensajeria.PaqueteFinalizarBatalla;
 import mensajeria.PaqueteMovimiento;
 
 public class NPCadmin {
@@ -22,7 +24,13 @@ public class NPCadmin {
 	private static int anchoMapa;
 	
     private static final int CANTIDAD_NPC = 10;
-	
+    private static final int MULTIPLICADOR_RANDOM_X = 30;
+    private static final int MULTIPLICADOR_RANDOM_y = 20;
+    private static final int INICIALIZADOR_POSICIONES = 5;
+    private static final int X_ISO = (64 / 2);
+    private static final int Y_ISO = (32 / 2);
+    
+    
     public NPCadmin( String pathMapa) {
 		super();
 		cargarMapa(pathMapa);
@@ -54,12 +62,12 @@ public class NPCadmin {
 	        int yIsometrica;
 	    	
 	    	// asi te los reparte los NPC al peincipio pero no donde spawneas
-	    	x = 5 + (int) (Math.random() * 30);
-	    	y = 5 + (int) (Math.random() * 20);     	
+	    	x = INICIALIZADOR_POSICIONES + (int) (Math.random() * MULTIPLICADOR_RANDOM_X);
+	    	y = INICIALIZADOR_POSICIONES + (int) (Math.random() * MULTIPLICADOR_RANDOM_y);     	
 	        while( matMapa[y][x] )
 	        {
-	        	x = 5 + (int) (Math.random() * 30);
-	        	y = 5 + (int) (Math.random() * 20);
+	        	x = INICIALIZADOR_POSICIONES + (int) (Math.random() * MULTIPLICADOR_RANDOM_X);
+	        	y = INICIALIZADOR_POSICIONES + (int) (Math.random() * MULTIPLICADOR_RANDOM_y);
 	   		}
 	    	
 	        // resta 1 pq empiezan a graficar desde el 1 y no desde el 0 
@@ -67,8 +75,8 @@ public class NPCadmin {
 	        y--;
 	        
 	        // pasa de coordenadas de tiles a coordenadas isometricas para la posicion	
-	        xIsometrica = (x - y) * (64 / 2);
-	        yIsometrica = (x + y) * (32 / 2);
+	        xIsometrica = (x - y) * X_ISO;
+	        yIsometrica = (x + y) * Y_ISO;
 	        
 	        
 	    	
@@ -82,7 +90,35 @@ public class NPCadmin {
     	}
     }
 	
-
+	public void cargarnuevosNPCS(PaqueteFinalizarBatalla paqueteFinalizarBatalla){
+		
+		int x;  
+    	int y;
+		int xIso;
+		int yIso;
+		int xOffset;
+		int yOffset;
+		
+		
+		x = INICIALIZADOR_POSICIONES + (int) (Math.random() * MULTIPLICADOR_RANDOM_X);
+    	y = INICIALIZADOR_POSICIONES + (int) (Math.random() * MULTIPLICADOR_RANDOM_y); 
+        while( matMapa[y][x])
+        {
+        	x = INICIALIZADOR_POSICIONES + (int) (Math.random() * MULTIPLICADOR_RANDOM_X);
+        	y = INICIALIZADOR_POSICIONES + (int) (Math.random() * MULTIPLICADOR_RANDOM_y);
+   		}
+    	
+        // resta 1 pq empiezan a graficar desde el 1 y no desde el 0 
+        x--;
+        y--;
+        
+        // pasa de coordenadas de tiles a coordenadas isometricas para la posicion	
+        xIso = (x - y) * X_ISO;
+        yIso = (x + y) * Y_ISO;
+		
+		PaqueteMovimiento newPosicion = new PaqueteMovimiento(paqueteFinalizarBatalla.getIdEnemigo(),xIso,yIso);
+		 Servidor.getNPCs().getUbicacionNPCs().put(paqueteFinalizarBatalla.getIdEnemigo(), newPosicion);
+	}
 
 	private void cargarMapa(String path) {
       
