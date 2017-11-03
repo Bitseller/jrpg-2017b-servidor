@@ -2,54 +2,181 @@ package servidor;
 
 import properties.Idioma;
 
+/**
+ * The Class MensajesLog.
+ */
 public final class MensajesLog {
-	
-    public static String usuarioDuplicado(String usuario){
-    	return Idioma.getIdioma().getProperty("ERR_REG_USR_DUPLICADO")+" "+usuario;
+
+    /**
+     * Instantiates a new mensajes log.
+     */
+    private MensajesLog() {
+
     }
-	public static String usuarioRegistradoExitosamente(String usuario) {
-    	return Idioma.getIdioma().getProperty("OK_REG_USR")+" "+usuario;
-	}
-	public static String usuarioErrorGeneralAlRegistrar(String usuario) {
-    	return Idioma.getIdioma().getProperty("ERR_REG_USR_GRL")+" "+usuario;
-	}
-	public static String estableciendoConexion() {
-    	return Idioma.getIdioma().getProperty("CON_DB_ESTABLECIENDO");
-	}
-	public static String conexionEstablecida() {
-    	return Idioma.getIdioma().getProperty("CON_DB_ESTABLECIDA");
-	}
-	public static String errorEstablecimientoConexionDB() {
-    	return Idioma.getIdioma().getProperty("CON_DB_ERR_ESTABLECER");
-	}
-	public static String errorCerrarConexion() {
-    	return Idioma.getIdioma().getProperty("CON_DB_ERR_ESTABLECER");
-	}
-	public static String personajeErrorGeneralAlRegistrar() {
-    	return Idioma.getIdioma().getProperty("ERR_REG_Personaje");
-	}
-	public static String personajeActualizadoExitosamente(String nombre) {
-    	return Idioma.getIdioma().getProperty("OK_UPD_PERSONAJE")+" "+nombre;
-	}
-	public static String personajeErrorGeneralAlActualizar(String nombre) {
-    	return Idioma.getIdioma().getProperty("ERR_UPD_Personaje")+" "+nombre;
-	}
-	public static String errorAlIntentarRecuperarElUsuario(String usuario) {
-    	return Idioma.getIdioma().getProperty("ERR_RECUP_USR")+" "+usuario;
-	}
-	public static String inventarioErrorGeneralAlActualizar(String nombre) {
-    	return Idioma.getIdioma().getProperty("ERR_GRAL_UPD_USR")+" "+nombre;
-	}
-	public static String ingresoExitoso(String nombre) {
-    	return Idioma.getIdioma().getProperty("OK_LOGIN")+" "+nombre;
-	}
-	public static String ingresoFallido(String nombre) {
-    	return Idioma.getIdioma().getProperty("ERR_LOGIN")+" "+nombre;
-	}
-	public static String personajeRegistradoExitosamente(String nombre) {
-    	return Idioma.getIdioma().getProperty("OK_REG_PERSONAJE")+" "+nombre;
-	}
-	public static String errorAlIntentarRecuperarElPJ(String nombre) {
-    	return Idioma.getIdioma().getProperty("ERR_RECUP_PJ")+" "+nombre;
-	}
+
+    /**
+     * Usuario duplicado.
+     *
+     * @param usuario
+     *            the usuario
+     * @return the string
+     */
+    public static String usuarioDuplicado(final String usuario) {
+        return Idioma.getIdioma().getProperty("ERR_REG_USR_DUPLICADO") + " " + usuario;
+    }
+
+    /**
+     * Usuario registrado exitosamente.
+     *
+     * @param usuario
+     *            the usuario
+     * @return the string
+     */
+    public static String usuarioRegistradoExitosamente(final String usuario) {
+        return Idioma.getIdioma().getProperty("OK_REG_USR") + " " + usuario;
+    }
+
+    /**
+     * Usuario error general al registrar.
+     *
+     * @param usuario
+     *            the usuario
+     * @return the string
+     */
+    public static String usuarioErrorGeneralAlRegistrar(final String usuario) {
+        return Idioma.getIdioma().getProperty("ERR_REG_USR_GRL") + " " + usuario;
+    }
+
+    /**
+     * Estableciendo conexion.
+     *
+     * @return the string
+     */
+    public static String estableciendoConexion() {
+        return Idioma.getIdioma().getProperty("CON_DB_ESTABLECIENDO");
+    }
+
+    /**
+     * Conexion establecida.
+     *
+     * @return the string
+     */
+    public static String conexionEstablecida() {
+        return Idioma.getIdioma().getProperty("CON_DB_ESTABLECIDA");
+    }
+
+    /**
+     * Error establecimiento conexion DB.
+     *
+     * @return the string
+     */
+    public static String errorEstablecimientoConexionDB() {
+        return Idioma.getIdioma().getProperty("CON_DB_ERR_ESTABLECER");
+    }
+
+    /**
+     * Error cerrar conexion.
+     *
+     * @return the string
+     */
+    public static String errorCerrarConexion() {
+        return Idioma.getIdioma().getProperty("CON_DB_ERR_ESTABLECER");
+    }
+
+    /**
+     * Personaje error general al registrar.
+     *
+     * @return the string
+     */
+    public static String personajeErrorGeneralAlRegistrar() {
+        return Idioma.getIdioma().getProperty("ERR_REG_Personaje");
+    }
+
+    /**
+     * Personaje actualizado exitosamente.
+     *
+     * @param nombre
+     *            the nombre
+     * @return the string
+     */
+    public static String personajeActualizadoExitosamente(final String nombre) {
+        return Idioma.getIdioma().getProperty("OK_UPD_PERSONAJE") + " " + nombre;
+    }
+
+    /**
+     * Personaje error general al actualizar.
+     *
+     * @param nombre
+     *            the nombre
+     * @return the string
+     */
+    public static String personajeErrorGeneralAlActualizar(final String nombre) {
+        return Idioma.getIdioma().getProperty("ERR_UPD_Personaje") + " " + nombre;
+    }
+
+    /**
+     * Error al intentar recuperar el usuario.
+     *
+     * @param usuario
+     *            the usuario
+     * @return the string
+     */
+    public static String errorAlIntentarRecuperarElUsuario(final String usuario) {
+        return Idioma.getIdioma().getProperty("ERR_RECUP_USR") + " " + usuario;
+    }
+
+    /**
+     * Inventario error general al actualizar.
+     *
+     * @param nombre
+     *            the nombre
+     * @return the string
+     */
+    public static String inventarioErrorGeneralAlActualizar(final String nombre) {
+        return Idioma.getIdioma().getProperty("ERR_GRAL_UPD_USR") + " " + nombre;
+    }
+
+    /**
+     * Ingreso exitoso.
+     *
+     * @param nombre
+     *            the nombre
+     * @return the string
+     */
+    public static String ingresoExitoso(final String nombre) {
+        return Idioma.getIdioma().getProperty("OK_LOGIN") + " " + nombre;
+    }
+
+    /**
+     * Ingreso fallido.
+     *
+     * @param nombre
+     *            the nombre
+     * @return the string
+     */
+    public static String ingresoFallido(final String nombre) {
+        return Idioma.getIdioma().getProperty("ERR_LOGIN") + " " + nombre;
+    }
+
+    /**
+     * Personaje registrado exitosamente.
+     *
+     * @param nombre
+     *            the nombre
+     * @return the string
+     */
+    public static String personajeRegistradoExitosamente(final String nombre) {
+        return Idioma.getIdioma().getProperty("OK_REG_PERSONAJE") + " " + nombre;
+    }
+
+    /**
+     * Error al intentar recuperar el PJ.
+     *
+     * @param nombre
+     *            the nombre
+     * @return the string
+     */
+    public static String errorAlIntentarRecuperarElPJ(final String nombre) {
+        return Idioma.getIdioma().getProperty("ERR_RECUP_PJ") + " " + nombre;
+    }
 }

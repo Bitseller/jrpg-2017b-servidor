@@ -6,9 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -19,26 +16,22 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Scanner;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-import mensajeria.PaqueteDeNPC;
 import mensajeria.PaqueteMensaje;
 import mensajeria.PaqueteMovimiento;
 import mensajeria.PaquetePersonaje;
 import persistencia.hibernate.HibernateUtil;
 import properties.Idioma;
-import mundo.Tile;
 import properties.PropiedadesComunicacion;
 
 /**
- * The Class Servidor que se inicia para correr los clientes
+ * The Class Servidor que se inicia para correr los clientes.
  */
 public class Servidor extends Thread {
 
@@ -56,8 +49,6 @@ public class Servidor extends Thread {
 
     private static final int ANCHO_ETIQUETA = 200;
 
-
-
     private static final int ALTO_ETIQUETA = 30;
 
     private static final int ANCHO_BOTON = 100;
@@ -66,17 +57,15 @@ public class Servidor extends Thread {
 
     private static Map<Integer, PaqueteMovimiento> ubicacionPersonajes = new HashMap<>();
     private static Map<Integer, PaquetePersonaje> personajesConectados = new HashMap<>();
-    
+
     private static NPCadmin NPCs;
-    
+
     private static Thread server;
 
     private static ServerSocket serverSocket;
     private static Conector conexionDB;
 
-
-
-	private static final int ANCHO = 700;
+    private static final int ANCHO = 700;
     private static final int ALTO = 640;
 
     private static final int POS_Y_BOTONES_ABAJO = ALTO - 70;
@@ -91,10 +80,12 @@ public class Servidor extends Thread {
 
     /**
      * The main method.
-     * @param args parametros
+     * 
+     * @param args
+     *            parametros
      */
     public static void main(final String[] args) {
-    	Idioma.setIdiomaEspaniol();
+        Idioma.setIdiomaEspaniol();
         cargarInterfaz();
     }
 
@@ -118,7 +109,7 @@ public class Servidor extends Thread {
         log.setEditable(false);
         log.setFont(new Font("Times New Roman", Font.PLAIN, FUENTE_LOG));
         JScrollPane scroll = new JScrollPane(log, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+            JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scroll.setBounds(POS_X_PRIMER_ETIQUETA, POS_Y_SEGUNDA_ETIQUETA, ANCHO_LOG, ALTO_LOG);
         ventana.add(scroll);
 
@@ -158,8 +149,8 @@ public class Servidor extends Thread {
                     appendLog(Idioma.getIdioma().getProperty("SERVIDOR_ERROR_AL_DETENER"));
                 }
                 if (conexionDB != null) {
-                	HibernateUtil.cerrarSessionFactory();
-           //         conexionDB.close();
+                    HibernateUtil.cerrarSessionFactory();
+                    //         conexionDB.close();
                 }
                 botonDetener.setEnabled(false);
                 botonIniciar.setEnabled(true);
@@ -190,7 +181,7 @@ public class Servidor extends Thread {
                     }
                 }
                 if (conexionDB != null) {
-                   HibernateUtil.cerrarSessionFactory();// conexionDB.close();
+                    HibernateUtil.cerrarSessionFactory();// conexionDB.close();
                 }
                 System.exit(0);
             }
@@ -204,7 +195,7 @@ public class Servidor extends Thread {
         try {
 
             conexionDB = new Conector();
-         //   conexionDB.connect();
+            //   conexionDB.connect();
 
             appendLog(Idioma.getIdioma().getProperty("SERVIDOR_INICIANDO"));
             serverSocket = new ServerSocket(PropiedadesComunicacion.getPuertoServidor());
@@ -215,11 +206,11 @@ public class Servidor extends Thread {
             atencionMovimientos = new AtencionMovimientos();
 
             atencionConexiones.start();
-            atencionMovimientos.start();  
-            
+            atencionMovimientos.start();
+
             NPCs = new NPCadmin("mapaSolides.txt");
             NPCs.cargarPrimerosNPCS();
-            
+
             while (true) {
                 Socket cliente = serverSocket.accept();
                 ipRemota = cliente.getInetAddress().getHostAddress();
@@ -235,12 +226,11 @@ public class Servidor extends Thread {
         } catch (Exception e) {
             appendLog(Idioma.getIdioma().getProperty("SERVIDOR_ERROR_CONEXION"));
         }
-     	HibernateUtil.eliminarSessionFactory();
+        HibernateUtil.eliminarSessionFactory();
 
     }
 
-
-	/**
+    /**
      * Mensaje A un usuario.
      *
      * @param pqm
@@ -261,11 +251,13 @@ public class Servidor extends Thread {
 
         // Si existe inicio sesion
         if (encontrado) {
-        	appendLog(pqm.getUserEmisor() + " "+Idioma.getIdioma().getProperty("SERVIDOR_COMUNICACION_ENTRE")+" " + pqm.getUserReceptor() );
+            appendLog(pqm.getUserEmisor() + " " + Idioma.getIdioma().getProperty("SERVIDOR_COMUNICACION_ENTRE") + " "
+                + pqm.getUserReceptor());
             return true;
         } else {
             // Si no existe informo y devuelvo false
-        	appendLog(Idioma.getIdioma().getProperty("SERVIDOR_ERR_ENVIAR_MSJ_USR_DECON")+" " + pqm.getUserReceptor() );
+            appendLog(Idioma.getIdioma().getProperty("SERVIDOR_ERR_ENVIAR_MSJ_USR_DECON") + " " + pqm
+                .getUserReceptor());
             return false;
         }
     }
@@ -281,7 +273,7 @@ public class Servidor extends Thread {
     }
 
     /**
-     * Verifica si se envio mensaje a todos los clientes conectados
+     * Verifica si se envio mensaje a todos los clientes conectados.
      *
      * @param contador
      *            la cantidad de clientes en el server
@@ -313,7 +305,6 @@ public class Servidor extends Thread {
      *
      * @return the ubicacion NPCs
      */
- 
 
     /**
      * Gets the ubicacion personajes.
@@ -352,14 +343,23 @@ public class Servidor extends Thread {
         return conexionDB;
     }
 
-	public static NPCadmin getNPCs() {
-		return NPCs;
-	}
+    /**
+     * Gets the NP cs.
+     *
+     * @return the NP cs
+     */
+    public static NPCadmin getNPCs() {
+        return NPCs;
+    }
 
-	public static void setNPCs(NPCadmin nPCs) {
-		NPCs = nPCs;
-	}
-    
+    /**
+     * Sets the NP cs.
+     *
+     * @param nPCs
+     *            the new NP cs
+     */
+    public static void setNPCs(final NPCadmin nPCs) {
+        NPCs = nPCs;
+    }
 
-    
 }
