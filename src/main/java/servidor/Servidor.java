@@ -6,6 +6,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -16,10 +19,12 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Scanner;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
@@ -29,6 +34,7 @@ import mensajeria.PaqueteMovimiento;
 import mensajeria.PaquetePersonaje;
 import persistencia.hibernate.HibernateUtil;
 import properties.Idioma;
+import mundo.Tile;
 import properties.PropiedadesComunicacion;
 
 /**
@@ -50,31 +56,27 @@ public class Servidor extends Thread {
 
     private static final int ANCHO_ETIQUETA = 200;
 
-    private static final int CANTIDAD_NPC = 10;
+
 
     private static final int ALTO_ETIQUETA = 30;
 
     private static final int ANCHO_BOTON = 100;
 
-    private static final int RANDOM_POS_DESDE = 10;
-
-    private static final double RANDOM_POS = 0.707;
-
-    private static final int RANDOM_HASTA = 500;
-
     private static ArrayList<EscuchaCliente> clientesConectados = new ArrayList<>();
 
     private static Map<Integer, PaqueteMovimiento> ubicacionPersonajes = new HashMap<>();
     private static Map<Integer, PaquetePersonaje> personajesConectados = new HashMap<>();
-    private static Map<Integer, PaqueteMovimiento> ubicacionNPCs = new HashMap<>();
-    private static Map<Integer, PaqueteDeNPC> NPCs = new HashMap<>();
-
+    
+    private static NPCadmin NPCs;
+    
     private static Thread server;
 
     private static ServerSocket serverSocket;
     private static Conector conexionDB;
 
-    private static final int ANCHO = 700;
+
+
+	private static final int ANCHO = 700;
     private static final int ALTO = 640;
 
     private static final int POS_Y_BOTONES_ABAJO = ALTO - 70;
@@ -213,24 +215,11 @@ public class Servidor extends Thread {
             atencionMovimientos = new AtencionMovimientos();
 
             atencionConexiones.start();
-            atencionMovimientos.start();
-
-            for (int i = 0; i < CANTIDAD_NPC; i++) { // crea 10 NPCs en posiciones randoms
-                PaqueteDeNPC paqueteDeNPC = new PaqueteDeNPC(i);
-                float x = (float) Math.random() * RANDOM_HASTA;
-                float y = (float) Math.random() * RANDOM_HASTA;
-
-                PaqueteMovimiento paqueteMovimiento = new PaqueteMovimiento(i,
-                        (float) (RANDOM_POS_DESDE + (x * RANDOM_POS) - (y * RANDOM_POS)),
-                        (float) (RANDOM_POS_DESDE + (x * RANDOM_POS) + (y * RANDOM_POS)));
-
-                NPCs.put(i, paqueteDeNPC);
-                ubicacionNPCs.put(i, paqueteMovimiento);
-
-                setNPCs(NPCs);
-                setUbicacionNPCs(ubicacionNPCs);
-            }
-
+            atencionMovimientos.start();  
+            
+            NPCs = new NPCadmin("mapaSolides.txt");
+            NPCs.cargarPrimerosNPCS();
+            
             while (true) {
                 Socket cliente = serverSocket.accept();
                 ipRemota = cliente.getInetAddress().getHostAddress();
@@ -250,7 +239,8 @@ public class Servidor extends Thread {
 
     }
 
-    /**
+
+	/**
      * Mensaje A un usuario.
      *
      * @param pqm
@@ -284,7 +274,7 @@ public class Servidor extends Thread {
      * Append log.
      *
      * @param text
-     *            texto a añadir
+     *            texto a aï¿½adir
      */
     public static void appendLog(final String text) {
         log.append(text + System.lineSeparator());
@@ -323,38 +313,7 @@ public class Servidor extends Thread {
      *
      * @return the ubicacion NPCs
      */
-    public static Map<Integer, PaqueteMovimiento> getUbicacionNPCs() {
-        return ubicacionNPCs;
-    }
-
-    /**
-     * Sets the ubicacion NPCs.
-     *
-     * @param ubicacionNPCs
-     *            paquete con la ubicacion del NPCs
-     */
-    public static void setUbicacionNPCs(final Map<Integer, PaqueteMovimiento> ubicacionNPCs) {
-        Servidor.ubicacionNPCs = ubicacionNPCs;
-    }
-
-    /**
-     * Gets the NPCs.
-     *
-     * @return the NPCs
-     */
-    public static Map<Integer, PaqueteDeNPC> getNPCs() {
-        return NPCs;
-    }
-
-    /**
-     * Sets the NPCs.
-     *
-     * @param NPCs
-     *            the NPCs.
-     */
-    public static void setNPCs(final Map<Integer, PaqueteDeNPC> NPCs) {
-        Servidor.NPCs = NPCs;
-    }
+ 
 
     /**
      * Gets the ubicacion personajes.
@@ -392,6 +351,15 @@ public class Servidor extends Thread {
     public static Conector getConector() {
         return conexionDB;
     }
+
+	public static NPCadmin getNPCs() {
+		return NPCs;
+	}
+
+	public static void setNPCs(NPCadmin nPCs) {
+		NPCs = nPCs;
+	}
     
+
     
 }

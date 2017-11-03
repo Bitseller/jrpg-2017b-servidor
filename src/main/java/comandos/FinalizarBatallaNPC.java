@@ -6,6 +6,7 @@ import estados.Estado;
 import mensajeria.PaqueteFinalizarBatalla;
 import mensajeria.PaqueteMovimiento;
 import servidor.EscuchaCliente;
+import servidor.NPCadmin;
 import servidor.Servidor;
 
 /**
@@ -31,17 +32,17 @@ public class FinalizarBatallaNPC extends ComandosServer {
                 .setEstado(Estado.estadoJuego);
 
         if (paqueteFinalizarBatalla.getGanadorBatalla() < 0) { // gano el personaje
-            Servidor.getUbicacionNPCs().remove(paqueteFinalizarBatalla.getIdEnemigo());
+            Servidor.getNPCs().getUbicacionNPCs().remove(paqueteFinalizarBatalla.getIdEnemigo());
             // PaqueteDeNPC newNPC;
             // new NPC =
 
             // PaqueteDeNPC newNPC = new PaqueteDeNPC(
             // paqueteFinalizarBatalla.getIdEnemigo() );
-            PaqueteMovimiento newPosicion = new PaqueteMovimiento(paqueteFinalizarBatalla.getIdEnemigo(),
-                    POS_X_ALEATORIA, POS_Y_ALEATORIA);
-
-            Servidor.getUbicacionNPCs().put(paqueteFinalizarBatalla.getIdEnemigo(), newPosicion);
-
+//            PaqueteMovimiento newPosicion = new PaqueteMovimiento(paqueteFinalizarBatalla.getIdEnemigo(),
+//                    POS_X_ALEATORIA, POS_Y_ALEATORIA);
+//
+//            Servidor.getNPCs().getUbicacionNPCs().put(paqueteFinalizarBatalla.getIdEnemigo(), newPosicion);
+            Servidor.getNPCs().cargarnuevosNPCS(paqueteFinalizarBatalla);
         }
 
         for (EscuchaCliente conectado : Servidor.getClientesConectados()) {

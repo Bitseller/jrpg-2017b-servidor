@@ -22,7 +22,7 @@ public class MostrarMapas extends ComandosServer {
         try {
 
             PaqueteDeNPCs paqueteNPCs;
-            paqueteNPCs = new PaqueteDeNPCs(Servidor.getNPCs());
+            paqueteNPCs = new PaqueteDeNPCs( Servidor.getNPCs().getNPCs() );
             paqueteNPCs.setComando(Comando.ACTUALIZARNPCS);
             // escuchaCliente.setIdPersonaje(paquetePersonaje.getId());
 

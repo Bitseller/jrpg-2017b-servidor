@@ -40,8 +40,7 @@ public class AtencionMovimientos extends Thread {
                             }
 
                             // envio la ubicacion de todos los NPCs
-                            PaqueteDeMovimientos pdpN = (PaqueteDeMovimientos) new PaqueteDeMovimientos(
-                                    Servidor.getUbicacionNPCs()).clone();
+                            PaqueteDeMovimientos pdpN = (PaqueteDeMovimientos) new PaqueteDeMovimientos( Servidor.getNPCs().getUbicacionNPCs() ).clone();
                             pdpN.setComando(Comando.MOVIMIENTONPCS);
                             synchronized (conectado) {
                                 conectado.getSalida().writeObject(gson.toJson(pdpN));
