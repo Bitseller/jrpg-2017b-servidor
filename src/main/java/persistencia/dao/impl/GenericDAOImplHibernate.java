@@ -16,24 +16,29 @@ import persistencia.dao.GenericDAO;
 import persistencia.hibernate.HibernateUtil;
 
 /**
- * The Class GenericDAOImplHibernate.
- *
+ * La clase GenericDAOImplHibernate.
+ * Implementa un DAO generico para todas las Entidades
  * @param <T>
- *            the generic type
+ *            Tipo generico de Entidad
  * @param <ID>
- *            the generic type
+ *            Tipo generico de ID
  */
 public class GenericDAOImplHibernate<T, ID extends Serializable> implements GenericDAO<T, ID> {
     private SessionFactory sessionFactory;
     private static final Logger LOGGER = Logger.getLogger(GenericDAOImplHibernate.class.getName());
 
     /**
-     * Instantiates a new generic DAO impl hibernate.
+     * Recupero la SessionFactory creada por HibernateUtil
      */
     public GenericDAOImplHibernate() {
         sessionFactory = HibernateUtil.getSessionFactory();
     }
 
+    /**
+     * Guardo o Actualizo a una entidad
+     * @param entity
+     * 			Entidad a guardar o actualizar
+     */
     @Override
     public void guardarOActualizar(final T entity) throws Exception {
         Session session = sessionFactory.getCurrentSession();
@@ -46,7 +51,12 @@ public class GenericDAOImplHibernate<T, ID extends Serializable> implements Gene
             throw ex;
         }
     }
-
+ 
+    /**
+     * Actualizo una entidad
+     * @param entity
+     * 			entidad a actualizar
+     */
     @Override
     public void actualizar(final T entity) throws Exception {
         Session session = sessionFactory.getCurrentSession();
@@ -61,6 +71,12 @@ public class GenericDAOImplHibernate<T, ID extends Serializable> implements Gene
         }
     }
 
+    /**
+     * Recupero el registro/entidad que corresponda a la ID pasada
+     * @param id
+     * 		Identificador del registro/entidad a buscar
+     * @return La entidad si existe
+     */
     @Override
     public T buscarPorId(final ID id) throws Exception {
         Session session = sessionFactory.getCurrentSession();
@@ -74,7 +90,12 @@ public class GenericDAOImplHibernate<T, ID extends Serializable> implements Gene
             throw ex;
         }
     }
-
+    
+    /**
+     * Elimino el registro/entidad que corresponda a la ID pasada
+     * @param id
+     * 		Identificador del registro/entidad a eliminar
+     */
     @Override
     public void borrar(final ID id) throws Exception {
         Session session = sessionFactory.getCurrentSession();
@@ -91,6 +112,10 @@ public class GenericDAOImplHibernate<T, ID extends Serializable> implements Gene
         }
     }
 
+    /**
+     * Recupero en una lista todos los registros de una tabla
+     * @return la lista
+     */
     @Override
     public List<T> traerTodos() throws Exception {
         Session session = sessionFactory.getCurrentSession();
@@ -106,9 +131,9 @@ public class GenericDAOImplHibernate<T, ID extends Serializable> implements Gene
     }
 
     /**
-     * Gets the entity class.
+     * Consigo la clase de la entidad
      *
-     * @return the entity class
+     * @return la clase de la entidad
      */
     private Class<T> getEntityClass() {
         return (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
@@ -118,7 +143,7 @@ public class GenericDAOImplHibernate<T, ID extends Serializable> implements Gene
      * Rollback.
      *
      * @param session
-     *            the session
+     *            la session
      */
     private void rollback(final Session session) {
         try {
@@ -126,7 +151,7 @@ public class GenericDAOImplHibernate<T, ID extends Serializable> implements Gene
                 session.getTransaction().rollback();
             }
         } catch (Exception exc) {
-            LOGGER.log(Level.WARNING, "Error en la transaccion y no pudo rebertirse", exc);
+            LOGGER.log(Level.WARNING, "Error en la transaccion y no pudo revertirse", exc);
         }
     }
 

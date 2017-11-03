@@ -9,10 +9,15 @@ import persistencia.entidades.EItem;
 import persistencia.hibernate.HibernateUtil;
 
 /**
- * The Class ItemDAOImplHibernate.
+ * La clase ItemDAOImplHibernate.
+ * Tiene metodos propios DAO item a parte de los DAO genericos heredados.
  */
 public class ItemDAOImplHibernate extends GenericDAOImplHibernate<EItem, Integer> implements ItemDAO {
 
+	/**
+	 * Retorna la cantidad de items existente en la db
+	 * @return Entero con la cantidad de items en la db
+	 */
     @Override
     public int cantidadDeItemsExistente() {
 
