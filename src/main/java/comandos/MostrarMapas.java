@@ -16,13 +16,13 @@ public class MostrarMapas extends ComandosServer {
     public void ejecutar() {
         escuchaCliente.setPaquetePersonaje(getGson().fromJson(getCadenaLeida(), PaquetePersonaje.class));
         Servidor.log.append(escuchaCliente.getSocket().getInetAddress().getHostAddress() + " ha elegido el mapa "
-                + escuchaCliente.getPaquetePersonaje().getMapa() + System.lineSeparator());
+            + escuchaCliente.getPaquetePersonaje().getMapa() + System.lineSeparator());
 
         // carga los NPCs del Mapa
         try {
 
             PaqueteDeNPCs paqueteNPCs;
-            paqueteNPCs = new PaqueteDeNPCs( Servidor.getNPCs().getNPCs() );
+            paqueteNPCs = new PaqueteDeNPCs(Servidor.getNPCs().getNPCs());
             paqueteNPCs.setComando(Comando.ACTUALIZARNPCS);
             // escuchaCliente.setIdPersonaje(paquetePersonaje.getId());
 

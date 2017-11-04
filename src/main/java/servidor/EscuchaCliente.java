@@ -53,7 +53,7 @@ public class EscuchaCliente extends Thread {
      * @throws IOException Signals that an I/O exception has occurred.
      */
     public EscuchaCliente(final String ip, final Socket socket, final ObjectInputStream entrada,
-            final ObjectOutputStream salida) throws IOException {
+        final ObjectOutputStream salida) throws IOException {
         this.socket = socket;
         this.entrada = entrada;
         this.salida = salida;
@@ -72,7 +72,7 @@ public class EscuchaCliente extends Thread {
 
             paquete = gson.fromJson(cadenaLeida, Paquete.class);
             while (paquete.getComando() != Comando.DESCONECTAR) {
-                // entra aca cada vez q alguien le pide algo al server, 
+                // entra aca cada vez q alguien le pide algo al server,
                 // sino se queda esperando andes de entrar al while
                 // si alguien le pide desconectarse sale del loop
 

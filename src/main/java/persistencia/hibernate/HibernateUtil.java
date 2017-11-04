@@ -11,10 +11,13 @@ import org.hibernate.context.internal.ThreadLocalSessionContext;
 /**
  * The Class HibernateUtil.
  */
-public class HibernateUtil {
+public final class HibernateUtil {
 
     private static SessionFactory sessionFactory;
 
+    /**
+     * Instantiates a new hibernate util.
+     */
     private HibernateUtil() {
 
     }

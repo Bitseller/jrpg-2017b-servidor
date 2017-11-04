@@ -14,7 +14,8 @@ public class ControladorMochila {
      * Instantiates a new controlador mochila.
      */
     public ControladorMochila() {
-        objetoDAO = new MochilaDAOImplHibernate();//CAMBIANDO ESTA LINEA IMPLEMENTO OTRO TIPO DE DAO
+        //CAMBIANDO ESTA LINEA IMPLEMENTO OTRO TIPO DE DAO
+        objetoDAO = new MochilaDAOImplHibernate();
     }
 
     /**

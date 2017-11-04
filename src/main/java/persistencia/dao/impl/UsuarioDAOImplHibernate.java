@@ -16,14 +16,14 @@ import persistencia.hibernate.HibernateUtil;
  * Tiene metodos propios DAO Usuario a parte de los DAO genericos heredados.
  */
 public class UsuarioDAOImplHibernate extends GenericDAOImplHibernate<EUsuario, String> implements UsuarioDAO {
-    
-	/**
-	 * Retorna si existe un usuario en particular
-	 * @param nombreUsuario
-	 * 			Nombre del usuario
-	 * @return booleano, true o false
-	 */
-	@Override
+
+    /**
+     * Retorna si existe un usuario en particular
+     * @param nombreUsuario
+     * 			Nombre del usuario
+     * @return booleano, true o false
+     */
+    @Override
     public boolean existe(final String nombreUsuario) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         CriteriaBuilder cb = session.getCriteriaBuilder();
@@ -31,18 +31,19 @@ public class UsuarioDAOImplHibernate extends GenericDAOImplHibernate<EUsuario, S
         Root<EUsuario> r = c.from(EUsuario.class);
         c.select(cb.count(c.from(EUsuario.class)));
         ParameterExpression<String> a = cb.parameter(String.class, "userName");
-        c.where(cb.equal(r.get("userName"), a));//r.getModel().getName()
+        //r.getModel().getName()
+        c.where(cb.equal(r.get("userName"), a));
         return session.createQuery(c).setParameter("userName", nombreUsuario).getSingleResult() > 0;
     }
 
-	/**
-	 * Corroboro que el user y su pass existan en la db
-	 * @param username
-	 * 			Nombre del usuario
-	 * @param password
-	 * 			Password
-	 * @return boolean, true o false
-	 */
+    /**
+     * Corroboro que el user y su pass existan en la db
+     * @param username
+     * 			Nombre del usuario
+     * @param password
+     * 			Password
+     * @return boolean, true o false
+     */
     @Override
     public boolean validarUsuario(final String username, final String password) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();

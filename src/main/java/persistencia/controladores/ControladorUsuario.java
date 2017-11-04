@@ -14,7 +14,8 @@ public class ControladorUsuario {
      * Instantiates a new controlador usuario.
      */
     public ControladorUsuario() {
-        objetoDAO = new UsuarioDAOImplHibernate();//CAMBIANDO ESTA LINEA IMPLEMENTO OTRO TIPO DE DAO
+        //CAMBIANDO ESTA LINEA IMPLEMENTO OTRO TIPO DE DAO
+        objetoDAO = new UsuarioDAOImplHibernate();
     }
 
     /**

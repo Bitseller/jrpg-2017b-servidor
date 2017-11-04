@@ -14,7 +14,8 @@ public class ControladorItem {
      * Instantiates a new controlador item.
      */
     public ControladorItem() {
-        objetoDAO = new ItemDAOImplHibernate();//CAMBIANDO ESTA LINEA IMPLEMENTO OTRO TIPO DE DAO
+        //CAMBIANDO ESTA LINEA IMPLEMENTO OTRO TIPO DE DAO
+        objetoDAO = new ItemDAOImplHibernate();
     }
 
     /**
