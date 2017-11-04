@@ -29,7 +29,7 @@ public class AtencionMovimientos extends Thread {
 
                     for (EscuchaCliente conectado : Servidor.getClientesConectados()) {
 
-                        if (conectado.getPaquetePersonaje().getEstado() == Estado.estadoJuego) {
+                        if (conectado.getPaquetePersonaje().getEstado() == Estado.getEstadoJuego()) {
 
                             // envio la ubicacion de todos los personajes
                             PaqueteDeMovimientos pdp = (PaqueteDeMovimientos) new PaqueteDeMovimientos(

@@ -29,7 +29,7 @@ public class FinalizarBatallaNPC extends ComandosServer {
 
         Servidor.getConector().actualizarMochila(paqueteFinalizarBatalla.getId());
         Servidor.getPersonajesConectados().get(escuchaCliente.getPaqueteFinalizarBatalla().getId())
-                .setEstado(Estado.estadoJuego);
+                .setEstado(Estado.getEstadoJuego());
 
         if (paqueteFinalizarBatalla.getGanadorBatalla() < 0) { // gano el personaje
             Servidor.getNPCs().getUbicacionNPCs().remove(paqueteFinalizarBatalla.getIdEnemigo());
