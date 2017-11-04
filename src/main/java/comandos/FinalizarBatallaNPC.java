@@ -21,7 +21,7 @@ public class FinalizarBatallaNPC extends ComandosServer {
     @Override
     public void ejecutar() {
 
-        PaqueteFinalizarBatalla paqueteFinalizarBatalla = gson.fromJson(cadenaLeida, PaqueteFinalizarBatalla.class);
+        PaqueteFinalizarBatalla paqueteFinalizarBatalla = getGson().fromJson(getCadenaLeida(), PaqueteFinalizarBatalla.class);
         paqueteFinalizarBatalla.setComando(FINALIZARBATALLA);
         escuchaCliente.setPaqueteFinalizarBatalla(paqueteFinalizarBatalla);
 
@@ -46,7 +46,7 @@ public class FinalizarBatallaNPC extends ComandosServer {
         for (EscuchaCliente conectado : Servidor.getClientesConectados()) {
             if (conectado.getIdPersonaje() == escuchaCliente.getPaqueteFinalizarBatalla().getId()) {
                 try {
-                    conectado.getSalida().writeObject(gson.toJson(escuchaCliente.getPaqueteFinalizarBatalla()));
+                    conectado.getSalida().writeObject(getGson().toJson(escuchaCliente.getPaqueteFinalizarBatalla()));
                 } catch (IOException e) {
                     // TODO Auto-generated catch block
                     Servidor.log.append("Falló al intentar enviar finalizarBatalla a:"

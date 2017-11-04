@@ -19,7 +19,7 @@ public class InicioSesion extends ComandosServer {
         paqueteSv.setComando(Comando.INICIOSESION);
 
         // Recibo el paquete usuario
-        escuchaCliente.setPaqueteUsuario((gson.fromJson(cadenaLeida, PaqueteUsuario.class)));
+        escuchaCliente.setPaqueteUsuario((getGson().fromJson(getCadenaLeida(), PaqueteUsuario.class)));
 
         // Si se puede loguear el usuario le envio un mensaje de exito y el paquete
         // personaje con los datos
@@ -32,7 +32,7 @@ public class InicioSesion extends ComandosServer {
                 paquetePersonaje.setMensaje(Paquete.msjExito);
                 escuchaCliente.setIdPersonaje(paquetePersonaje.getId());
 
-                escuchaCliente.getSalida().writeObject(gson.toJson(paquetePersonaje));
+                escuchaCliente.getSalida().writeObject(getGson().toJson(paquetePersonaje));
 
                 /*
                  * esto lo puse en mostrarMapa al final asi le llega tambien si se registra.
@@ -45,7 +45,7 @@ public class InicioSesion extends ComandosServer {
                  */
             } else {
                 paqueteSv.setMensaje(Paquete.msjFracaso);
-                escuchaCliente.getSalida().writeObject(gson.toJson(paqueteSv));
+                escuchaCliente.getSalida().writeObject(getGson().toJson(paqueteSv));
             }
         } catch (IOException e) {
             Servidor.log.append("Falló al intentar iniciar sesión \n");

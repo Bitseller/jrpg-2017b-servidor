@@ -14,7 +14,7 @@ public class MostrarMapas extends ComandosServer {
 
     @Override
     public void ejecutar() {
-        escuchaCliente.setPaquetePersonaje(gson.fromJson(cadenaLeida, PaquetePersonaje.class));
+        escuchaCliente.setPaquetePersonaje(getGson().fromJson(getCadenaLeida(), PaquetePersonaje.class));
         Servidor.log.append(escuchaCliente.getSocket().getInetAddress().getHostAddress() + " ha elegido el mapa "
                 + escuchaCliente.getPaquetePersonaje().getMapa() + System.lineSeparator());
 
@@ -26,7 +26,7 @@ public class MostrarMapas extends ComandosServer {
             paqueteNPCs.setComando(Comando.ACTUALIZARNPCS);
             // escuchaCliente.setIdPersonaje(paquetePersonaje.getId());
 
-            escuchaCliente.getSalida().writeObject(gson.toJson(paqueteNPCs));
+            escuchaCliente.getSalida().writeObject(getGson().toJson(paqueteNPCs));
 
         } catch (IOException e) {
             Servidor.log.append("Falló al intentar crear NPCs \n");

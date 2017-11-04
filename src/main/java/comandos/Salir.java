@@ -24,7 +24,7 @@ public class Salir extends ComandosServer {
 
         // Lo elimino de los clientes conectados
         Servidor.getClientesConectados().remove(this);
-        Paquete paquete = gson.fromJson(cadenaLeida, Paquete.class);
+        Paquete paquete = getGson().fromJson(getCadenaLeida(), Paquete.class);
         // Indico que se desconecto
         Servidor.log.append(paquete.getIp() + " se ha desconectado." + System.lineSeparator());
     }

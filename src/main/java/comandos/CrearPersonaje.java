@@ -13,7 +13,7 @@ public class CrearPersonaje extends ComandosServer {
     @Override
     public void ejecutar() {
         // Casteo el paquete personaje
-        escuchaCliente.setPaquetePersonaje((gson.fromJson(cadenaLeida, PaquetePersonaje.class)));
+        escuchaCliente.setPaquetePersonaje((getGson().fromJson(getCadenaLeida(), PaquetePersonaje.class)));
         // Guardo el personaje en ese usuario
         Servidor.getConector().registrarPersonaje(escuchaCliente.getPaquetePersonaje(),
                 escuchaCliente.getPaqueteUsuario());
@@ -24,7 +24,7 @@ public class CrearPersonaje extends ComandosServer {
             escuchaCliente.setIdPersonaje(paquetePersonaje.getId());
             escuchaCliente.getPaquetePersonaje().setId(paquetePersonaje.getId());
             escuchaCliente.getSalida().writeObject(
-                    gson.toJson(escuchaCliente.getPaquetePersonaje(), escuchaCliente.getPaquetePersonaje().getClass()));
+                    getGson().toJson(escuchaCliente.getPaquetePersonaje(), escuchaCliente.getPaquetePersonaje().getClass()));
         } catch (IOException e1) {
             Servidor.log.append("Falló al intentar enviar personaje creado \n");
         }
