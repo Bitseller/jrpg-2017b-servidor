@@ -308,7 +308,7 @@ public class Conector {
         HibernateUtil.abrirSessionEnHilo();
         ControladorPersonaje ctrl = new ControladorPersonaje();
         try {
-            EPersonaje ePersonaje = new EPersonaje();
+            EPersonaje ePersonaje = ctrl.buscarPorId(paquetePersonaje.getId());
             ePersonaje.setCasta(paquetePersonaje.getCasta());
             ePersonaje.setRaza(paquetePersonaje.getRaza());
             ePersonaje.setFuerza(paquetePersonaje.getFuerza());
