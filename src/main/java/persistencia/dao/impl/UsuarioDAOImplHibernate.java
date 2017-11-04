@@ -50,8 +50,7 @@ public class UsuarioDAOImplHibernate extends GenericDAOImplHibernate<EUsuario, S
         CriteriaBuilder cb = session.getCriteriaBuilder();
         CriteriaQuery<EUsuario> c = cb.createQuery(EUsuario.class);
         Root<EUsuario> r = c.from(EUsuario.class);
-        c.select(r).where(cb.equal(r.get("userName"), username));
-        c.select(r).where(cb.equal(r.get("password"), password));
+        c.select(r).where(cb.equal(r.get("userName"), username),cb.equal(r.get("password"), password));
         return session.createQuery(c).getResultList().size() > 0;
 
     }
