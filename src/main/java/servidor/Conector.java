@@ -283,8 +283,10 @@ public class Conector {
                 int itemGanado = new Random().nextInt(ctrlItem.cantidadDeItemsExistente());
                 itemGanado += 1;
                 EItem e =ctrlItem.buscarPorId(itemGanado);
-                if(!personaje.getMochila().contains(e))
-                personaje.getMochila().add(ctrlItem.buscarPorId(itemGanado));
+                if(!personaje.getMochila().contains(e)){
+                    personaje.getMochila().add(ctrlItem.buscarPorId(itemGanado));
+                    paquetePersonaje.anadirItem(e.getId());
+                }
             }
 
             ctrl.actualizar(personaje);
