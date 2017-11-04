@@ -17,7 +17,10 @@ import mensajeria.PaqueteMovimiento;
  */
 public class NPCadmin {
 
-    private Map<Integer, PaqueteDeNPC> NPCs = new HashMap<>();
+    private static final int X_SIZE = 64;
+    private static final int Y_SIZE = 32;
+    private static final int MAPA_SIZE = 74;
+    private Map<Integer, PaqueteDeNPC> npcs = new HashMap<>();
     private Map<Integer, PaqueteMovimiento> ubicacionNPCs = new HashMap<>();
     private boolean[][] matMapa;
 
@@ -26,10 +29,10 @@ public class NPCadmin {
 
     private static final int CANTIDAD_NPC = 10;
     private static final int MULTIPLICADOR_RANDOM_X = 30;
-    private static final int MULTIPLICADOR_RANDOM_y = 20;
+    private static final int MULTIPLICADOR_RANDOM_Y = 20;
     private static final int INICIALIZADOR_POSICIONES = 5;
-    private static final int X_ISO = (64 / 2);
-    private static final int Y_ISO = (32 / 2);
+    private static final int X_ISO = (X_SIZE / 2);
+    private static final int Y_ISO = (Y_SIZE / 2);
 
     /**
      * Instantiates a new NP cadmin.
@@ -37,7 +40,7 @@ public class NPCadmin {
      * @param pathMapa
      *            the path mapa
      */
-    public NPCadmin(String pathMapa) {
+    public NPCadmin(final String pathMapa) {
         super();
         cargarMapa(pathMapa);
     }
@@ -49,20 +52,8 @@ public class NPCadmin {
         cargarMapa("mapaSolides.txt");
         for (int i = 0; i < CANTIDAD_NPC; i++) { // crea 10 NPCs en posiciones randoms
 
-            //for (int i = 0; i < 10; i++) {
-            //int i = 0; //////////////
             PaqueteDeNPC paqueteDeNPC = new PaqueteDeNPC(i);
 
-            /* asi seria si lo queres repartir por todo el mapa pero quedan re lejos si son 10 nomas    	
-            int x = (int) (Math.random() * anchoMapas[0]);
-            int y = (int) (Math.random() * altoMapas[0]);     	
-            while( matMapa[x][y] )
-            {
-               	x = (int) (Math.random() * anchoMapas[0]);
-            	y = (int) (Math.random() * altoMapas[0]); 
-            }*/
-
-            // coordenadas de los tiles en los q va  a estar ubicado el NPC para ver si es solido o no
             int x;
             int y;
 
@@ -72,26 +63,26 @@ public class NPCadmin {
 
             // asi te los reparte los NPC al peincipio pero no donde spawneas
             x = INICIALIZADOR_POSICIONES + (int) (Math.random() * MULTIPLICADOR_RANDOM_X);
-            y = INICIALIZADOR_POSICIONES + (int) (Math.random() * MULTIPLICADOR_RANDOM_y);
+            y = INICIALIZADOR_POSICIONES + (int) (Math.random() * MULTIPLICADOR_RANDOM_Y);
             while (matMapa[y][x]) {
                 x = INICIALIZADOR_POSICIONES + (int) (Math.random() * MULTIPLICADOR_RANDOM_X);
-                y = INICIALIZADOR_POSICIONES + (int) (Math.random() * MULTIPLICADOR_RANDOM_y);
+                y = INICIALIZADOR_POSICIONES + (int) (Math.random() * MULTIPLICADOR_RANDOM_Y);
             }
 
-            // resta 1 pq empiezan a graficar desde el 1 y no desde el 0 
+            // resta 1 pq empiezan a graficar desde el 1 y no desde el 0
             x--;
             y--;
 
-            // pasa de coordenadas de tiles a coordenadas isometricas para la posicion	
+            // pasa de coordenadas de tiles a coordenadas isometricas para la posicion
             xIsometrica = (x - y) * X_ISO;
             yIsometrica = (x + y) * Y_ISO;
 
             PaqueteMovimiento paqueteMovimiento = new PaqueteMovimiento(i, xIsometrica, yIsometrica);
 
-            NPCs.put(i, paqueteDeNPC);
+            npcs.put(i, paqueteDeNPC);
             ubicacionNPCs.put(i, paqueteMovimiento);
 
-            setNPCs(NPCs);
+            setNPCs(npcs);
             setUbicacionNPCs(ubicacionNPCs);
         }
     }
@@ -112,17 +103,17 @@ public class NPCadmin {
         int yOffset;
 
         x = INICIALIZADOR_POSICIONES + (int) (Math.random() * MULTIPLICADOR_RANDOM_X);
-        y = INICIALIZADOR_POSICIONES + (int) (Math.random() * MULTIPLICADOR_RANDOM_y);
+        y = INICIALIZADOR_POSICIONES + (int) (Math.random() * MULTIPLICADOR_RANDOM_Y);
         while (matMapa[y][x]) {
             x = INICIALIZADOR_POSICIONES + (int) (Math.random() * MULTIPLICADOR_RANDOM_X);
-            y = INICIALIZADOR_POSICIONES + (int) (Math.random() * MULTIPLICADOR_RANDOM_y);
+            y = INICIALIZADOR_POSICIONES + (int) (Math.random() * MULTIPLICADOR_RANDOM_Y);
         }
 
-        // resta 1 pq empiezan a graficar desde el 1 y no desde el 0 
+        // resta 1 pq empiezan a graficar desde el 1 y no desde el 0
         x--;
         y--;
 
-        // pasa de coordenadas de tiles a coordenadas isometricas para la posicion	
+        // pasa de coordenadas de tiles a coordenadas isometricas para la posicion
         xIso = (x - y) * X_ISO;
         yIso = (x + y) * Y_ISO;
 
@@ -141,10 +132,10 @@ public class NPCadmin {
         try {
             Scanner sc = new Scanner(new File(path));
 
-            altoMapa = 74;
-            anchoMapa = 74;
+            altoMapa = MAPA_SIZE;
+            anchoMapa = MAPA_SIZE;
 
-            matMapa = new boolean[74][74];
+            matMapa = new boolean[MAPA_SIZE][MAPA_SIZE];
 
             for (int i = 0; i < altoMapa; i++) {
                 for (int j = 0; j < anchoMapa; j++) {
@@ -165,7 +156,7 @@ public class NPCadmin {
      */
     //////getters y setters //////
     public Map<Integer, PaqueteDeNPC> getNPCs() {
-        return NPCs;
+        return npcs;
     }
 
     /**
@@ -175,7 +166,7 @@ public class NPCadmin {
      *            the n P cs
      */
     public void setNPCs(final Map<Integer, PaqueteDeNPC> nPCs) {
-        NPCs = nPCs;
+        npcs = nPCs;
     }
 
     /**

@@ -4,9 +4,7 @@ import java.io.IOException;
 
 import estados.Estado;
 import mensajeria.PaqueteFinalizarBatalla;
-import mensajeria.PaqueteMovimiento;
 import servidor.EscuchaCliente;
-import servidor.NPCadmin;
 import servidor.Servidor;
 
 /**
@@ -29,7 +27,7 @@ public class FinalizarBatallaNPC extends ComandosServer {
 
         //Servidor.getConector().actualizarMochila(paqueteFinalizarBatalla.getId());
         Servidor.getPersonajesConectados().get(escuchaCliente.getPaqueteFinalizarBatalla().getId())
-                .setEstado(Estado.getEstadoJuego());
+            .setEstado(Estado.getEstadoJuego());
 
         if (paqueteFinalizarBatalla.getGanadorBatalla() < 0) { // gano el personaje
             Servidor.getNPCs().getUbicacionNPCs().remove(paqueteFinalizarBatalla.getIdEnemigo());
@@ -38,10 +36,10 @@ public class FinalizarBatallaNPC extends ComandosServer {
 
             // PaqueteDeNPC newNPC = new PaqueteDeNPC(
             // paqueteFinalizarBatalla.getIdEnemigo() );
-//            PaqueteMovimiento newPosicion = new PaqueteMovimiento(paqueteFinalizarBatalla.getIdEnemigo(),
-//                    POS_X_ALEATORIA, POS_Y_ALEATORIA);
-//
-//            Servidor.getNPCs().getUbicacionNPCs().put(paqueteFinalizarBatalla.getIdEnemigo(), newPosicion);
+            //            PaqueteMovimiento newPosicion = new PaqueteMovimiento(paqueteFinalizarBatalla.getIdEnemigo(),
+            //                    POS_X_ALEATORIA, POS_Y_ALEATORIA);
+            //
+            //            Servidor.getNPCs().getUbicacionNPCs().put(paqueteFinalizarBatalla.getIdEnemigo(), newPosicion);
             Servidor.getNPCs().cargarnuevosNPCS(paqueteFinalizarBatalla);
         }
 
@@ -52,7 +50,7 @@ public class FinalizarBatallaNPC extends ComandosServer {
                 } catch (IOException e) {
                     // TODO Auto-generated catch block
                     Servidor.log.append("Falló al intentar enviar finalizarBatalla a:"
-                            + conectado.getPaquetePersonaje().getId() + "\n");
+                        + conectado.getPaquetePersonaje().getId() + "\n");
                 }
             }
         }
