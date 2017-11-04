@@ -27,7 +27,7 @@ public class FinalizarBatallaNPC extends ComandosServer {
         paqueteFinalizarBatalla.setComando(FINALIZARBATALLA);
         escuchaCliente.setPaqueteFinalizarBatalla(paqueteFinalizarBatalla);
 
-        Servidor.getConector().actualizarMochila(paqueteFinalizarBatalla.getId());
+        //Servidor.getConector().actualizarMochila(paqueteFinalizarBatalla.getId());
         Servidor.getPersonajesConectados().get(escuchaCliente.getPaqueteFinalizarBatalla().getId())
                 .setEstado(Estado.estadoJuego);
 
