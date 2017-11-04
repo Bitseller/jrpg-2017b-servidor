@@ -269,21 +269,21 @@ public class Conector {
         int i = 0;
         HibernateUtil.abrirSessionEnHilo();
         ControladorPersonaje ctrl = new ControladorPersonaje();
+        ControladorItem ctrlItem = new ControladorItem();
         PaquetePersonaje paquetePersonaje = Servidor.getPersonajesConectados().get(idPersonaje);
         try {
             EPersonaje personaje = ctrl.buscarPorId(idPersonaje);
             personaje.getMochila().clear();
             while (i < paquetePersonaje.getCantItems()) {
-                EItem item = new EItem();
-                item.setId(paquetePersonaje.getItemID(i));
-                personaje.getMochila().add(item);//ctrlItem.buscarPorId(paquetePersonaje.getItemID(i)));
+                personaje.getMochila().add(ctrlItem.buscarPorId(paquetePersonaje.getItemID(i)));//ctrlItem.buscarPorId(paquetePersonaje.getItemID(i)));
                 i++;
             }
 
             if (paquetePersonaje.getCantItems() < 9) {
-                ControladorItem ctrlItem = new ControladorItem();
                 int itemGanado = new Random().nextInt(ctrlItem.cantidadDeItemsExistente());
                 itemGanado += 1;
+                EItem e =ctrlItem.buscarPorId(itemGanado);
+                if(!personaje.getMochila().contains(e))
                 personaje.getMochila().add(ctrlItem.buscarPorId(itemGanado));
             }
 
