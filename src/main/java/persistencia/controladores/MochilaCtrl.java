@@ -1,21 +1,21 @@
 package persistencia.controladores;
 
 import persistencia.dao.MochilaDAO;
-import persistencia.dao.impl.MochilaDAOImplHibernate;
-import persistencia.entidades.EMochila;
+import persistencia.dao.impl.MochilaHibernate;
+import persistencia.entidades.Mochila;
 
 /**
  * The Class ControladorMochila.
  */
-public class ControladorMochila {
+public class MochilaCtrl {
     private MochilaDAO objetoDAO;
 
     /**
      * Instantiates a new controlador mochila.
      */
-    public ControladorMochila() {
+    public MochilaCtrl() {
         //CAMBIANDO ESTA LINEA IMPLEMENTO OTRO TIPO DE DAO
-        objetoDAO = new MochilaDAOImplHibernate();
+        objetoDAO = new MochilaHibernate();
     }
 
     /**
@@ -26,7 +26,7 @@ public class ControladorMochila {
      * @throws Exception
      *             the exception
      */
-    public void guardar(final EMochila objeto) throws Exception {
+    public void guardar(final Mochila objeto) throws Exception {
         objetoDAO.guardarOActualizar(objeto);
     }
 
@@ -38,7 +38,7 @@ public class ControladorMochila {
      * @throws Exception
      *             the exception
      */
-    public void actualizar(final EMochila objeto) throws Exception {
+    public void actualizar(final Mochila objeto) throws Exception {
         objetoDAO.actualizar(objeto);
 
     }

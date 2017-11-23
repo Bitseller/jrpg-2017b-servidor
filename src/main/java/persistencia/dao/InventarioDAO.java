@@ -1,10 +1,10 @@
 package persistencia.dao;
 
-import persistencia.entidades.EInventario;
+import persistencia.entidades.Inventario;
 
 /**
  * The Interface InventarioDAO.
  */
-public interface InventarioDAO extends GenericDAO<EInventario, Integer> {
+public interface InventarioDAO extends GenericDAO<Inventario, Integer> {
 
 }

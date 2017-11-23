@@ -14,7 +14,7 @@ import javax.persistence.Table;
  */
 @Entity(name = "inventario")
 @Table(name = "inventario")
-public class EInventario {
+public class Inventario {
 
     @Id
     @Column(name = "idPersonaje")
@@ -23,36 +23,36 @@ public class EInventario {
     @MapsId
     @OneToOne
     @JoinColumn(name = "idPersonaje")
-    private EPersonaje personaje;
+    private Personaje personaje;
 
     @ManyToOne
     @JoinColumn(name = "manos1")
-    private EItem mano1;
+    private Item mano1;
 
     @ManyToOne
     @JoinColumn(name = "manos2")
-    private EItem mano2;
+    private Item mano2;
 
     @ManyToOne
     @JoinColumn(name = "pie")
-    private EItem pie;
+    private Item pie;
 
     @ManyToOne
     @JoinColumn(name = "cabeza")
-    private EItem cabeza;
+    private Item cabeza;
 
     @ManyToOne
     @JoinColumn(name = "pecho")
-    private EItem pecho;
+    private Item pecho;
 
     @ManyToOne
     @JoinColumn(name = "accesorio")
-    private EItem accesorio;
+    private Item accesorio;
 
     /**
      * Instantiates a new e inventario.
      */
-    public EInventario() {
+    public Inventario() {
         super();
 
     }
@@ -81,7 +81,7 @@ public class EInventario {
      *
      * @return the personaje
      */
-    public EPersonaje getPersonaje() {
+    public Personaje getPersonaje() {
         return personaje;
     }
 
@@ -91,7 +91,7 @@ public class EInventario {
      * @param personaje
      *            the personaje to set
      */
-    public void setPersonaje(final EPersonaje personaje) {
+    public void setPersonaje(final Personaje personaje) {
         this.personaje = personaje;
     }
 
@@ -100,7 +100,7 @@ public class EInventario {
      *
      * @return the mano1
      */
-    public EItem getMano1() {
+    public Item getMano1() {
         return mano1;
     }
 
@@ -110,7 +110,7 @@ public class EInventario {
      * @param mano1
      *            the mano1 to set
      */
-    public void setMano1(final EItem mano1) {
+    public void setMano1(final Item mano1) {
         this.mano1 = mano1;
     }
 
@@ -119,7 +119,7 @@ public class EInventario {
      *
      * @return the mano2
      */
-    public EItem getMano2() {
+    public Item getMano2() {
         return mano2;
     }
 
@@ -129,7 +129,7 @@ public class EInventario {
      * @param mano2
      *            the mano2 to set
      */
-    public void setMano2(final EItem mano2) {
+    public void setMano2(final Item mano2) {
         this.mano2 = mano2;
     }
 
@@ -138,7 +138,7 @@ public class EInventario {
      *
      * @return the pie
      */
-    public EItem getPie() {
+    public Item getPie() {
         return pie;
     }
 
@@ -148,7 +148,7 @@ public class EInventario {
      * @param pie
      *            the pie to set
      */
-    public void setPie(final EItem pie) {
+    public void setPie(final Item pie) {
         this.pie = pie;
     }
 
@@ -157,7 +157,7 @@ public class EInventario {
      *
      * @return the cabeza
      */
-    public EItem getCabeza() {
+    public Item getCabeza() {
         return cabeza;
     }
 
@@ -167,7 +167,7 @@ public class EInventario {
      * @param cabeza
      *            the cabeza to set
      */
-    public void setCabeza(final EItem cabeza) {
+    public void setCabeza(final Item cabeza) {
         this.cabeza = cabeza;
     }
 
@@ -176,7 +176,7 @@ public class EInventario {
      *
      * @return the pecho
      */
-    public EItem getPecho() {
+    public Item getPecho() {
         return pecho;
     }
 
@@ -186,7 +186,7 @@ public class EInventario {
      * @param pecho
      *            the pecho to set
      */
-    public void setPecho(final EItem pecho) {
+    public void setPecho(final Item pecho) {
         this.pecho = pecho;
     }
 
@@ -195,7 +195,7 @@ public class EInventario {
      *
      * @return the accesorio
      */
-    public EItem getAccesorio() {
+    public Item getAccesorio() {
         return accesorio;
     }
 
@@ -205,7 +205,7 @@ public class EInventario {
      * @param accesorio
      *            the accesorio to set
      */
-    public void setAccesorio(final EItem accesorio) {
+    public void setAccesorio(final Item accesorio) {
         this.accesorio = accesorio;
     }
 

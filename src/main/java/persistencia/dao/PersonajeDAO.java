@@ -1,9 +1,9 @@
 package persistencia.dao;
 
-import persistencia.entidades.EPersonaje;
+import persistencia.entidades.Personaje;
 
 /**
  * The Interface PersonajeDAO.
  */
-public interface PersonajeDAO extends GenericDAO<EPersonaje, Integer> {
+public interface PersonajeDAO extends GenericDAO<Personaje, Integer> {
 }

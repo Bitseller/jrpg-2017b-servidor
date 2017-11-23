@@ -1,11 +1,11 @@
 package persistencia.dao;
 
-import persistencia.entidades.EUsuario;
+import persistencia.entidades.Usuario;
 
 /**
  * The Interface UsuarioDAO.
  */
-public interface UsuarioDAO extends GenericDAO<EUsuario, String> {
+public interface UsuarioDAO extends GenericDAO<Usuario, String> {
 
     /**
      * Existe.

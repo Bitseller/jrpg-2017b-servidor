@@ -1,6 +1,8 @@
 package persistencia.entidades;
 
+import java.io.IOException;
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -16,12 +18,15 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import mensajeria.PaquetePersonaje;
+import persistencia.controladores.ItemCtrl;
+
 /**
  * The Class EPersonaje.
  */
 @Entity(name = "personaje")
 @Table(name = "personaje")
-public class EPersonaje {
+public class Personaje {
 
     @Id
     @GenericGenerator(name = "generador", strategy = "increment")
@@ -53,7 +58,7 @@ public class EPersonaje {
     private int nivel;
 
     @OneToOne(mappedBy = "personaje")
-    private EUsuario usuario;
+    private Usuario usuario;
 
     //	@OneToOne(cascade={javax.persistence.CascadeType.ALL})
     //	@PrimaryKeyJoinColumn
@@ -62,12 +67,12 @@ public class EPersonaje {
     @ManyToMany(cascade = { CascadeType.ALL })
     @JoinTable(name = "Mochila", joinColumns = { @JoinColumn(name = "pfkPersonaje") }, inverseJoinColumns = {
         @JoinColumn(name = "pfkItem") })
-    private Set<EItem> mochila = new HashSet<EItem>();
+    private Set<Item> mochila = new HashSet<Item>();
 
     /**
      * Instantiates a new e personaje.
      */
-    public EPersonaje() {
+    public Personaje() {
         super();
         this.nivel = 1;
         this.experiencia = 0;
@@ -306,7 +311,7 @@ public class EPersonaje {
      *
      * @return the usuario
      */
-    public EUsuario getUsuario() {
+    public Usuario getUsuario() {
         return usuario;
     }
 
@@ -316,7 +321,7 @@ public class EPersonaje {
      * @param usuario
      *            the usuario to set
      */
-    public void setUsuario(final EUsuario usuario) {
+    public void setUsuario(final Usuario usuario) {
         this.usuario = usuario;
     }
 
@@ -340,7 +345,7 @@ public class EPersonaje {
      *
      * @return the mochila
      */
-    public Set<EItem> getMochila() {
+    public Set<Item> getMochila() {
         return mochila;
     }
 
@@ -350,8 +355,47 @@ public class EPersonaje {
      * @param mochila
      *            the mochila to set
      */
-    public void setMochila(final Set<EItem> mochila) {
+    public void setMochila(final Set<Item> mochila) {
         this.mochila = mochila;
     }
 
+    public Personaje(PaquetePersonaje pq) throws Exception{
+    	this.id = pq.getId();
+    	this.casta = pq.getCasta();
+    	this.raza = pq.getRaza();
+    	this.fuerza = pq.getFuerza();
+    	this.destreza = pq.getDestreza();
+    	this.inteligencia = pq.getInteligencia();
+    	this.saludTope = pq.getSaludTope();
+    	this.energiaTope = pq.getEnergiaTope();
+    	this.nombre = pq.getNombre();
+    	this.puntosSkill = pq.getPuntosSkill();
+    	this.experiencia = pq.getExperiencia();
+    	this.setNivel(pq.getNivel());
+    	this.getMochila().add((new ItemCtrl().buscarPorId(new Random().nextInt(29))));
+    }
+    
+    public PaquetePersonaje getPaquete() throws IOException{
+    	  PaquetePersonaje personaje = new PaquetePersonaje();
+    	  
+    	  personaje.setId(this.id);
+          personaje.setRaza(this.raza);
+          personaje.setCasta(this.casta);
+          personaje.setFuerza(this.fuerza);
+          personaje.setInteligencia(this.inteligencia);
+          personaje.setDestreza(this.destreza);
+          personaje.setEnergiaTope(this.energiaTope);
+          personaje.setSaludTope(this.saludTope);
+          personaje.setNombre(this.nombre);
+          personaje.setExperiencia(this.experiencia);
+          personaje.setNivel(this.nivel);
+          personaje.setPuntosSkill(this.puntosSkill);
+          
+          for (Item item : this.mochila)
+              personaje.anadirItem(item.convertToItem());
+
+          return personaje;
+    }
+    
+    
 }

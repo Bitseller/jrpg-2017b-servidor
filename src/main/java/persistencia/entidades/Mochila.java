@@ -20,7 +20,7 @@ import javax.persistence.Table;
  */
 @Entity(name = "mochila")
 @Table(name = "mochila")
-public class EMochila {
+public class Mochila {
     @Id
     @Column(name = "idPersonaje")
     private int id;
@@ -28,15 +28,15 @@ public class EMochila {
     @MapsId
     @OneToOne
     @JoinColumn(name = "idPersonaje")
-    private EPersonaje personaje;
+    private Personaje personaje;
 
     @ManyToMany(cascade = { CascadeType.ALL }, mappedBy = "mochila")
-    private Set<EPersonaje> personajes = new HashSet<EPersonaje>();
+    private Set<Personaje> personajes = new HashSet<Personaje>();
 
     /**
      * Instantiates a new e mochila.
      */
-    public EMochila() {
+    public Mochila() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -47,7 +47,7 @@ public class EMochila {
      * @param personaje
      *            the personaje
      */
-    public EMochila(final EPersonaje personaje) {
+    public Mochila(final Personaje personaje) {
         super();
         this.personaje = personaje;
     }
@@ -76,7 +76,7 @@ public class EMochila {
      *
      * @return the personaje
      */
-    public EPersonaje getPersonaje() {
+    public Personaje getPersonaje() {
         return personaje;
     }
 
@@ -86,7 +86,7 @@ public class EMochila {
      * @param personaje
      *            the personaje to set
      */
-    public void setPersonaje(final EPersonaje personaje) {
+    public void setPersonaje(final Personaje personaje) {
         this.personaje = personaje;
     }
 
@@ -95,7 +95,7 @@ public class EMochila {
      *
      * @return the profesores
      */
-    public Set<EPersonaje> getPersonajes() {
+    public Set<Personaje> getPersonajes() {
         return personajes;
     }
 
@@ -105,7 +105,7 @@ public class EMochila {
      * @param profesores
      *            the profesores to set
      */
-    public void setPersonaje(final Set<EPersonaje> profesores) {
+    public void setPersonaje(final Set<Personaje> profesores) {
         this.personajes = profesores;
     }
 

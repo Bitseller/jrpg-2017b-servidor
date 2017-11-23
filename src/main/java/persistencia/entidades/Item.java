@@ -1,5 +1,7 @@
 package persistencia.entidades;
 
+import java.io.IOException;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -10,7 +12,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "item")
-public class EItem {
+public class Item {
 
     @Id
     @Column(name = "idItem")
@@ -43,7 +45,7 @@ public class EItem {
     /**
      * Instantiates a new e item.
      */
-    public EItem() {
+    public Item() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -295,4 +297,10 @@ public class EItem {
         this.inteligenciaRequerida = inteligenciaRequerida;
     }
 
+    public dominio.Item convertToItem() throws IOException{
+    	return new dominio.Item(this.id, this.nombre, this.wereable, this.bonusSalud,
+                this.bonusEnergia, this.bonusFuerza, this.bonusDestreza, this.bonusInteligencia,
+                this.foto, this.fotoEquipado);
+    }
+    
 }

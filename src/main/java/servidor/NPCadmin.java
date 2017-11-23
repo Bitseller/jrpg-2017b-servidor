@@ -99,9 +99,6 @@ public class NPCadmin {
         int y;
         int xIso;
         int yIso;
-        int xOffset;
-        int yOffset;
-
         x = INICIALIZADOR_POSICIONES + (int) (Math.random() * MULTIPLICADOR_RANDOM_X);
         y = INICIALIZADOR_POSICIONES + (int) (Math.random() * MULTIPLICADOR_RANDOM_Y);
         while (matMapa[y][x]) {

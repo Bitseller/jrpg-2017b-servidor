@@ -9,12 +9,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import mensajeria.PaqueteUsuario;
+
 /**
  * The Class EUsuario.
  */
 @Entity(name = "usuario")
 @Table(name = "usuario")
-public class EUsuario {
+public class Usuario {
     @Id
     @Column(name = "usuario")
     private String userName;
@@ -23,12 +25,12 @@ public class EUsuario {
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "idPersonaje")
-    private EPersonaje personaje;
+    private Personaje personaje;
 
     /**
      * Instantiates a new e usuario.
      */
-    public EUsuario() {
+    public Usuario() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -76,7 +78,7 @@ public class EUsuario {
      *
      * @return the personaje
      */
-    public EPersonaje getPersonaje() {
+    public Personaje getPersonaje() {
         return personaje;
     }
 
@@ -86,9 +88,22 @@ public class EUsuario {
      * @param personaje
      *            the personaje to set
      */
-    public void setPersonaje(final EPersonaje personaje) {
+    public void setPersonaje(final Personaje personaje) {
         this.personaje = personaje;
         this.personaje.setUsuario(this);
     }
 
+    public Usuario(PaqueteUsuario pq){
+    	this.userName = pq.getUsername();
+    	this.password = pq.getPassword();
+    }
+ 
+    public PaqueteUsuario getUsuario(){
+        PaqueteUsuario paqueteUsuario = new PaqueteUsuario();
+        paqueteUsuario.setUsername(this.userName);
+        paqueteUsuario.setPassword(this.password);//no se deeberia pasar la contrasenia. cambiar aparte a guardar hash
+        paqueteUsuario.setIdPj(this.personaje.getId());
+        return paqueteUsuario;
+    }
+    
 }

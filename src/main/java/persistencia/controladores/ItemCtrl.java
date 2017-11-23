@@ -1,21 +1,21 @@
 package persistencia.controladores;
 
-import persistencia.dao.PersonajeDAO;
-import persistencia.dao.impl.PersonajeDAOImplHibernate;
-import persistencia.entidades.EPersonaje;
+import persistencia.dao.ItemDAO;
+import persistencia.dao.impl.ItemHibernate;
+import persistencia.entidades.Item;
 
 /**
- * The Class ControladorPersonaje.
+ * The Class ControladorItem.
  */
-public class ControladorPersonaje {
-    private PersonajeDAO objetoDAO;
+public class ItemCtrl {
+    private ItemDAO objetoDAO;
 
     /**
-     * Instantiates a new controlador personaje.
+     * Instantiates a new controlador item.
      */
-    public ControladorPersonaje() {
+    public ItemCtrl() {
         //CAMBIANDO ESTA LINEA IMPLEMENTO OTRO TIPO DE DAO
-        objetoDAO = new PersonajeDAOImplHibernate();
+        objetoDAO = new ItemHibernate();
     }
 
     /**
@@ -26,7 +26,7 @@ public class ControladorPersonaje {
      * @throws Exception
      *             the exception
      */
-    public void guardar(final EPersonaje objeto) throws Exception {
+    public void guardar(final Item objeto) throws Exception {
         objetoDAO.guardarOActualizar(objeto);
     }
 
@@ -38,7 +38,7 @@ public class ControladorPersonaje {
      * @throws Exception
      *             the exception
      */
-    public void actualizar(final EPersonaje objeto) throws Exception {
+    public void actualizar(final Item objeto) throws Exception {
         objetoDAO.actualizar(objeto);
 
     }
@@ -48,12 +48,22 @@ public class ControladorPersonaje {
      *
      * @param id
      *            the id
-     * @return the e personaje
+     * @return the e item
      * @throws Exception
      *             the exception
      */
-    public EPersonaje buscarPorId(final int id) throws Exception {
+    public Item buscarPorId(final int id) throws Exception {
         return objetoDAO.buscarPorId(id);
+    }
+
+    /**
+     * Cantidad de items existente.
+     *
+     * @return the int
+     */
+    public int cantidadDeItemsExistente() {
+        return objetoDAO.cantidadDeItemsExistente();
+
     }
 
 }

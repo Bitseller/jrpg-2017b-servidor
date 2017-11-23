@@ -1,21 +1,21 @@
 package persistencia.controladores;
 
 import persistencia.dao.UsuarioDAO;
-import persistencia.dao.impl.UsuarioDAOImplHibernate;
-import persistencia.entidades.EUsuario;
+import persistencia.dao.impl.UsuarioHibernate;
+import persistencia.entidades.Usuario;
 
 /**
  * The Class ControladorUsuario.
  */
-public class ControladorUsuario {
+public class UsuarioCrl {
     private UsuarioDAO objetoDAO;
 
     /**
      * Instantiates a new controlador usuario.
      */
-    public ControladorUsuario() {
+    public UsuarioCrl() {
         //CAMBIANDO ESTA LINEA IMPLEMENTO OTRO TIPO DE DAO
-        objetoDAO = new UsuarioDAOImplHibernate();
+        objetoDAO = new UsuarioHibernate();
     }
 
     /**
@@ -26,7 +26,7 @@ public class ControladorUsuario {
      * @throws Exception
      *             the exception
      */
-    public void guardar(final EUsuario objeto) throws Exception {
+    public void guardar(final Usuario objeto) throws Exception {
         objetoDAO.guardarOActualizar(objeto);
     }
 
@@ -50,7 +50,7 @@ public class ControladorUsuario {
      * @throws Exception
      *             the exception
      */
-    public EUsuario buscarPorId(final String usuario) throws Exception {
+    public Usuario buscarPorId(final String usuario) throws Exception {
         // TODO Auto-generated method stub
         return objetoDAO.buscarPorId(usuario);
     }

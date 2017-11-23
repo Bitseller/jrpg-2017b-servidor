@@ -6,15 +6,15 @@
 <hibernate-configuration>
 	<session-factory>
 		<property name="hibernate.connection.driver_class">org.sqlite.JDBC</property>
-		<property name="hibernate.connection.url">jdbc:sqlite:primeraBase.bd</property>
+		<property name="hibernate.connection.url">jdbc:sqlite:women.bd</property>
 		<property name="hibernate.dialect">com.enigmabridge.hibernate.dialect.SQLiteDialect</property>
 		<property name="hibernate.current_session_context_class">thread</property>
 		<property name="show_sql">true</property>
 		<property name="format_sql">true</property>
-		<mapping class="persistencia.entidades.EInventario" />
-		<mapping class="persistencia.entidades.EItem" />
-		<mapping class="persistencia.entidades.EMochila" />
-		<mapping class="persistencia.entidades.EPersonaje" />
-		<mapping class="persistencia.entidades.EUsuario" />
+		<mapping class="persistencia.entidades.Inventario" />
+		<mapping class="persistencia.entidades.Item" />
+		<mapping class="persistencia.entidades.Mochila" />
+		<mapping class="persistencia.entidades.Personaje" />
+		<mapping class="persistencia.entidades.Usuario" />
 	</session-factory>
 </hibernate-configuration>

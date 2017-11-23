@@ -23,14 +23,14 @@ import persistencia.hibernate.HibernateUtil;
  * @param <ID>
  *            Tipo generico de ID
  */
-public class GenericDAOImplHibernate<T, ID extends Serializable> implements GenericDAO<T, ID> {
+public class GenericHibernate<T, ID extends Serializable> implements GenericDAO<T, ID> {
     private SessionFactory sessionFactory;
-    private static final Logger LOGGER = Logger.getLogger(GenericDAOImplHibernate.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(GenericHibernate.class.getName());
 
     /**
      * Recupero la SessionFactory creada por HibernateUtil
      */
-    public GenericDAOImplHibernate() {
+    public GenericHibernate() {
         sessionFactory = HibernateUtil.getSessionFactory();
     }
 

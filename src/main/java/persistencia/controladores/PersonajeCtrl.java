@@ -1,21 +1,21 @@
 package persistencia.controladores;
 
-import persistencia.dao.ItemDAO;
-import persistencia.dao.impl.ItemDAOImplHibernate;
-import persistencia.entidades.EItem;
+import persistencia.dao.PersonajeDAO;
+import persistencia.dao.impl.PersonajeHibernate;
+import persistencia.entidades.Personaje;
 
 /**
- * The Class ControladorItem.
+ * The Class ControladorPersonaje.
  */
-public class ControladorItem {
-    private ItemDAO objetoDAO;
+public class PersonajeCtrl {
+    private PersonajeDAO objetoDAO;
 
     /**
-     * Instantiates a new controlador item.
+     * Instantiates a new controlador personaje.
      */
-    public ControladorItem() {
+    public PersonajeCtrl() {
         //CAMBIANDO ESTA LINEA IMPLEMENTO OTRO TIPO DE DAO
-        objetoDAO = new ItemDAOImplHibernate();
+        objetoDAO = new PersonajeHibernate();
     }
 
     /**
@@ -26,7 +26,7 @@ public class ControladorItem {
      * @throws Exception
      *             the exception
      */
-    public void guardar(final EItem objeto) throws Exception {
+    public void guardar(final Personaje objeto) throws Exception {
         objetoDAO.guardarOActualizar(objeto);
     }
 
@@ -38,7 +38,7 @@ public class ControladorItem {
      * @throws Exception
      *             the exception
      */
-    public void actualizar(final EItem objeto) throws Exception {
+    public void actualizar(final Personaje objeto) throws Exception {
         objetoDAO.actualizar(objeto);
 
     }
@@ -48,22 +48,12 @@ public class ControladorItem {
      *
      * @param id
      *            the id
-     * @return the e item
+     * @return the e personaje
      * @throws Exception
      *             the exception
      */
-    public EItem buscarPorId(final int id) throws Exception {
+    public Personaje buscarPorId(final int id) throws Exception {
         return objetoDAO.buscarPorId(id);
-    }
-
-    /**
-     * Cantidad de items existente.
-     *
-     * @return the int
-     */
-    public int cantidadDeItemsExistente() {
-        return objetoDAO.cantidadDeItemsExistente();
-
     }
 
 }
