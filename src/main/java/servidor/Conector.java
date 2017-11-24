@@ -1,8 +1,6 @@
 package servidor;
 
 import java.io.IOException;
-import java.util.Random;
-
 import mensajeria.PaquetePersonaje;
 import mensajeria.PaqueteUsuario;
 import persistencia.controladores.ItemCtrl;
@@ -15,14 +13,14 @@ import persistencia.hibernate.HibernateUtil;
 
 /**
  * The Class Conector.
+ * Objetivo: realiza el enlace entre las operaciones con la base de datos y la aplicacion.
  */
 public class Conector {
-    /**
-     * Registrar usuario.
-     *
-     * @param user  the user
-     * @return true, if successful
-     */
+	/**
+	 * Registra un usuario.
+	 * @param user. Contenedor de informacion de usuario.
+	 * @return true si el usuario es registrado correctamente, false en caso de error (ejemplo: el usr ya existe).
+	 */
     public boolean registrarUsuario(final PaqueteUsuario user) {
         boolean resultadoOperacion;
         HibernateUtil.abrirSessionEnHilo();
@@ -56,14 +54,16 @@ public class Conector {
      *            the paquete usuario
      * @return true, if successful
      */
-    public boolean registrarPersonaje(final PaquetePersonaje paquetePersonaje, final PaqueteUsuario paqueteUsuario) {
+    public boolean registrarPersonaje(PaquetePersonaje paquetePersonaje, final PaqueteUsuario paqueteUsuario) {
         boolean resultadoOperacion;
         HibernateUtil.abrirSessionEnHilo();
         UsuarioCrl ctrlUsuario = new UsuarioCrl();
         try {
-            Usuario u = ctrlUsuario.buscarPorId(paqueteUsuario.getUsername());
-            u.setPersonaje(new Personaje(paquetePersonaje));
-            ctrlUsuario.guardar(u);
+        	Usuario usr = ctrlUsuario.buscarPorId(paqueteUsuario.getUsername());
+            Personaje persj = new Personaje(paquetePersonaje);
+            //persj.agregarItem(new ItemCtrl().itemRandom());//REGALAMOS UN ITEM POR SER LA PRIMERA VEZ
+            usr.setPersonaje(persj);
+            ctrlUsuario.guardar(usr);
             Servidor.appendLog(MensajesLog.personajeRegistradoExitosamente(paquetePersonaje.getNombre()));
             resultadoOperacion = true;
         } catch (Exception ex) {
@@ -75,7 +75,6 @@ public class Conector {
             HibernateUtil.cerrarSessionEnHilo();
         }
         return resultadoOperacion;
-
     }
 
     /**
@@ -89,11 +88,10 @@ public class Conector {
         HibernateUtil.abrirSessionEnHilo();
         UsuarioCrl ctrl = new UsuarioCrl();
         boolean valido = ctrl.validarUsuario(user.getUsername(), user.getPassword());
-        if (valido) {
+        if (valido)
             Servidor.appendLog(MensajesLog.ingresoExitoso(user.getUsername()));
-        } else {
+        else
             Servidor.appendLog(MensajesLog.ingresoFallido(user.getUsername()));
-        }
         HibernateUtil.cerrarSessionEnHilo();
         return valido;
     }
@@ -108,7 +106,7 @@ public class Conector {
         HibernateUtil.abrirSessionEnHilo();
         PersonajeCtrl ctrlPersonaje = new PersonajeCtrl();
         try {
-            ctrlPersonaje.guardar(new Personaje(paquetePersonaje));
+        	ctrlPersonaje.guardar(new Personaje(paquetePersonaje));
             Servidor.appendLog(MensajesLog.personajeActualizadoExitosamente(paquetePersonaje.getNombre()));
         } catch (Exception ex) {
             Servidor.appendLog(MensajesLog.personajeErrorGeneralAlActualizar(paquetePersonaje.getNombre()));
@@ -169,17 +167,14 @@ public class Conector {
      *            the paquete personaje
      */
     public void actualizarMochila(final PaquetePersonaje paquetePersonaje) {
-        int i = 0;
         HibernateUtil.abrirSessionEnHilo();
         PersonajeCtrl ctrl = new PersonajeCtrl();
         ItemCtrl ctrlItem = new ItemCtrl();
         try {
             Personaje personaje = ctrl.buscarPorId(paquetePersonaje.getId());
             personaje.getMochila().clear();
-            while (i < paquetePersonaje.getCantItems()) {
-                personaje.getMochila().add(ctrlItem.buscarPorId(paquetePersonaje.getItemID(i)));
-                i++;
-            }
+            for(dominio.Item item : paquetePersonaje.getItems())
+	           personaje.agregarItem(ctrlItem.buscarPorId(item.getIdItem()));
             ctrl.actualizar(personaje);
         } catch (Exception ex) {
             Servidor.appendLog(MensajesLog.inventarioErrorGeneralAlActualizar(paquetePersonaje.getNombre()));
@@ -197,8 +192,6 @@ public class Conector {
      *            the id personaje
      */
     public void actualizarMochila(final int idPersonaje) {
-
-        int i = 0;
         HibernateUtil.abrirSessionEnHilo();
         PersonajeCtrl ctrl = new PersonajeCtrl();
         ItemCtrl ctrlItem = new ItemCtrl();
@@ -206,21 +199,19 @@ public class Conector {
         try {
             Personaje personaje = ctrl.buscarPorId(idPersonaje);
             personaje.getMochila().clear();
-            while (i < paquetePersonaje.getCantItems()) {
-                personaje.getMochila().add(ctrlItem.buscarPorId(paquetePersonaje.getItemID(i)));//ctrlItem.buscarPorId(paquetePersonaje.getItemID(i)));
-                i++;
+            for(dominio.Item item : paquetePersonaje.getItems())
+	           personaje.agregarItem(ctrlItem.buscarPorId(item.getIdItem()));
+            if (paquetePersonaje.getCantItems() < 9) 
+            {
+                Item regalo;
+            	do
+            	{
+            		regalo =new ItemCtrl().itemRandom();
+            	}
+            	while(personaje.getMochila().contains(regalo));
+                personaje.agregarItem(regalo);
+                paquetePersonaje.anadirItem(regalo.convertToItem());
             }
-
-            if (paquetePersonaje.getCantItems() < 9) {
-                int itemGanado = new Random().nextInt(ctrlItem.cantidadDeItemsExistente());
-                itemGanado += 1;
-                Item e =ctrlItem.buscarPorId(itemGanado);
-                if(!personaje.getMochila().contains(e)){
-                    personaje.getMochila().add(ctrlItem.buscarPorId(itemGanado));
-                    paquetePersonaje.anadirItem(e.getId());
-                }
-            }
-
             ctrl.actualizar(personaje);
         } catch (Exception ex) {
             Servidor.appendLog(MensajesLog.inventarioErrorGeneralAlActualizar(paquetePersonaje.getNombre()));
@@ -242,7 +233,20 @@ public class Conector {
         HibernateUtil.abrirSessionEnHilo();
         PersonajeCtrl ctrl = new PersonajeCtrl();
         try {
-            ctrl.actualizar(new Personaje(paquetePersonaje));
+        	
+        	if (paquetePersonaje.getCantItems() < 9) 
+            {
+                Item regalo;
+            	do
+            	{
+            		regalo =new ItemCtrl().itemRandom();
+            	}
+            	while(paquetePersonaje.getItems().contains(regalo.convertToItem()));
+            	paquetePersonaje.anadirItem(regalo.convertToItem());
+            }
+        	
+        	ctrl.actualizar(new Personaje(paquetePersonaje));
+            
             Servidor.appendLog(MensajesLog.personajeActualizadoExitosamente(paquetePersonaje.getNombre()));
         } catch (Exception ex) {
             Servidor.appendLog(MensajesLog.personajeErrorGeneralAlActualizar(paquetePersonaje.getNombre()));

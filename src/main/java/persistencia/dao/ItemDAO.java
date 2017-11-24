@@ -13,4 +13,6 @@ public interface ItemDAO extends GenericDAO<Item, Integer> {
      * @return the int
      */
     public int cantidadDeItemsExistente();
+
+	public Item itemRandom() throws Exception;
 }

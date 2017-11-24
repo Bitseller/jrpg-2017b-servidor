@@ -12,11 +12,11 @@ import servidor.Servidor;
  */
 public class FinalizarBatallaNPC extends ComandosServer {
 
-    private static final int RANDOM_HASTA = 500;
-    private static final int RANDOM_X_DESDE = 100;
-    private static final int RANDOM_Y_DESDE = 10;
-    private static final float POS_Y_ALEATORIA = RANDOM_Y_DESDE + ((float) Math.random() * RANDOM_HASTA);
-    private static final float POS_X_ALEATORIA = RANDOM_X_DESDE + ((float) Math.random() * RANDOM_HASTA);
+   // private static final int RANDOM_HASTA = 500;
+   // private static final int RANDOM_X_DESDE = 100;
+   // private static final int RANDOM_Y_DESDE = 10;
+   // private static final float POS_Y_ALEATORIA = RANDOM_Y_DESDE + ((float) Math.random() * RANDOM_HASTA);
+   // private static final float POS_X_ALEATORIA = RANDOM_X_DESDE + ((float) Math.random() * RANDOM_HASTA);
 
     @Override
     public void ejecutar() {
@@ -25,21 +25,12 @@ public class FinalizarBatallaNPC extends ComandosServer {
         paqueteFinalizarBatalla.setComando(FINALIZARBATALLA);
         escuchaCliente.setPaqueteFinalizarBatalla(paqueteFinalizarBatalla);
 
-        //Servidor.getConector().actualizarMochila(paqueteFinalizarBatalla.getId());
+        Servidor.getConector().actualizarMochila(paqueteFinalizarBatalla.getId());
         Servidor.getPersonajesConectados().get(escuchaCliente.getPaqueteFinalizarBatalla().getId())
             .setEstado(Estado.getEstadoJuego());
 
         if (paqueteFinalizarBatalla.getGanadorBatalla() < 0) { // gano el personaje
             Servidor.getNPCs().getUbicacionNPCs().remove(paqueteFinalizarBatalla.getIdEnemigo());
-            // PaqueteDeNPC newNPC;
-            // new NPC =
-
-            // PaqueteDeNPC newNPC = new PaqueteDeNPC(
-            // paqueteFinalizarBatalla.getIdEnemigo() );
-            //            PaqueteMovimiento newPosicion = new PaqueteMovimiento(paqueteFinalizarBatalla.getIdEnemigo(),
-            //                    POS_X_ALEATORIA, POS_Y_ALEATORIA);
-            //
-            //            Servidor.getNPCs().getUbicacionNPCs().put(paqueteFinalizarBatalla.getIdEnemigo(), newPosicion);
             Servidor.getNPCs().cargarnuevosNPCS(paqueteFinalizarBatalla);
         }
 
@@ -53,6 +44,12 @@ public class FinalizarBatallaNPC extends ComandosServer {
                         + conectado.getPaquetePersonaje().getId() + "\n");
                 }
             }
+        	  try {
+                  conectado.getSalida().writeObject(getGson().toJson(escuchaCliente.getPaquetePersonaje()));
+              } catch (IOException e) {
+                  Servidor.log.append("Falló al intentar enviar paquetePersonaje a:"
+                          + conectado.getPaquetePersonaje().getId() + "\n");
+              }
         }
 
         synchronized (Servidor.atencionMovimientos) {

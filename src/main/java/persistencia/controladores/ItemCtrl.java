@@ -66,4 +66,14 @@ public class ItemCtrl {
 
     }
 
+    /**
+     * Cantidad de items existente.
+     *
+     * @return the int
+     * @throws Exception 
+     */
+    public Item itemRandom() throws Exception {
+        return objetoDAO.itemRandom();
+
+    }
 }

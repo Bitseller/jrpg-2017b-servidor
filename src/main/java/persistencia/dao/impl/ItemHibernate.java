@@ -1,9 +1,12 @@
 package persistencia.dao.impl;
 
+import java.util.Random;
+
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Projections;
 
+import persistencia.controladores.ItemCtrl;
 import persistencia.dao.ItemDAO;
 import persistencia.entidades.Item;
 import persistencia.hibernate.HibernateUtil;
@@ -26,5 +29,11 @@ public class ItemHibernate extends GenericHibernate<Item, Integer> implements It
         criteria.setProjection(Projections.rowCount());
         return ((Long) criteria.uniqueResult()).intValue();
     }
+
+	@Override
+	public Item itemRandom() throws Exception {
+		int idItem = new Random().nextInt(cantidadDeItemsExistente());
+		return new ItemCtrl().buscarPorId(idItem+1);
+	}
 
 }

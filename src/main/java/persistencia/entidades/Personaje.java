@@ -2,7 +2,6 @@ package persistencia.entidades;
 
 import java.io.IOException;
 import java.util.HashSet;
-import java.util.Random;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -78,6 +77,47 @@ public class Personaje {
         this.experiencia = 0;
     }
 
+    public Personaje(PaquetePersonaje pq) throws Exception{
+    	this.id = pq.getId();
+    	this.casta = pq.getCasta();
+    	this.raza = pq.getRaza();
+    	this.fuerza = pq.getFuerza();
+    	this.destreza = pq.getDestreza();
+    	this.inteligencia = pq.getInteligencia();
+    	this.saludTope = pq.getSaludTope();
+    	this.energiaTope = pq.getEnergiaTope();
+    	this.nombre = pq.getNombre();
+    	this.puntosSkill = pq.getPuntosSkill();
+    	this.experiencia = pq.getExperiencia();
+    	this.setNivel(pq.getNivel());
+    	
+    	ItemCtrl ctrlItem = new ItemCtrl();
+    	for(dominio.Item itemPQ : pq.getItems())
+    		this.mochila.add(ctrlItem.buscarPorId(itemPQ.getIdItem()));
+    }
+    
+    public PaquetePersonaje getPaquete() throws IOException{
+    	  PaquetePersonaje personaje = new PaquetePersonaje();
+    	  
+    	  personaje.setId(this.id);
+          personaje.setRaza(this.raza);
+          personaje.setCasta(this.casta);
+          personaje.setFuerza(this.fuerza);
+          personaje.setInteligencia(this.inteligencia);
+          personaje.setDestreza(this.destreza);
+          personaje.setEnergiaTope(this.energiaTope);
+          personaje.setSaludTope(this.saludTope);
+          personaje.setNombre(this.nombre);
+          personaje.setExperiencia(this.experiencia);
+          personaje.setNivel(this.nivel);
+          personaje.setPuntosSkill(this.puntosSkill);
+          
+          for (Item item : this.mochila)
+              personaje.anadirItem(item.convertToItem());
+
+          return personaje;
+    }
+    
     /**
      * Gets the id.
      *
@@ -325,21 +365,6 @@ public class Personaje {
         this.usuario = usuario;
     }
 
-    //	/**
-    //	 * @return the inventario
-    //	 */
-    //	public EInventario getInventario() {
-    //		return inventario;
-    //	}
-    //
-    //	/**
-    //	 * @param inventario the inventario to set
-    //	 */
-    //	public void setInventario(EInventario inventario) {
-    //		this.inventario = inventario;
-    //		this.inventario.setPersonaje(this);
-    //	}
-
     /**
      * Gets the mochila.
      *
@@ -359,43 +384,9 @@ public class Personaje {
         this.mochila = mochila;
     }
 
-    public Personaje(PaquetePersonaje pq) throws Exception{
-    	this.id = pq.getId();
-    	this.casta = pq.getCasta();
-    	this.raza = pq.getRaza();
-    	this.fuerza = pq.getFuerza();
-    	this.destreza = pq.getDestreza();
-    	this.inteligencia = pq.getInteligencia();
-    	this.saludTope = pq.getSaludTope();
-    	this.energiaTope = pq.getEnergiaTope();
-    	this.nombre = pq.getNombre();
-    	this.puntosSkill = pq.getPuntosSkill();
-    	this.experiencia = pq.getExperiencia();
-    	this.setNivel(pq.getNivel());
-    	this.getMochila().add((new ItemCtrl().buscarPorId(new Random().nextInt(29))));
-    }
-    
-    public PaquetePersonaje getPaquete() throws IOException{
-    	  PaquetePersonaje personaje = new PaquetePersonaje();
-    	  
-    	  personaje.setId(this.id);
-          personaje.setRaza(this.raza);
-          personaje.setCasta(this.casta);
-          personaje.setFuerza(this.fuerza);
-          personaje.setInteligencia(this.inteligencia);
-          personaje.setDestreza(this.destreza);
-          personaje.setEnergiaTope(this.energiaTope);
-          personaje.setSaludTope(this.saludTope);
-          personaje.setNombre(this.nombre);
-          personaje.setExperiencia(this.experiencia);
-          personaje.setNivel(this.nivel);
-          personaje.setPuntosSkill(this.puntosSkill);
-          
-          for (Item item : this.mochila)
-              personaje.anadirItem(item.convertToItem());
-
-          return personaje;
-    }
+	public void agregarItem(Item item) {
+		this.mochila.add(item);
+	}
     
     
 }
